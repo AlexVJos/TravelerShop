@@ -13,5 +13,35 @@ namespace TravelerShop.Web.Controllers
         {
             return View();
         }
+
+        public ActionResult About()
+        {
+            return View();
+        }
+
+        public ActionResult Cart()
+        {
+            return View();
+        }
+
+        public ActionResult Checkout()
+        {
+            return View();
+        }
+
+        public ActionResult Contact()
+        {
+            return View();
+        }
+
+        public ActionResult News()
+        {
+            return View();
+        }
+
+        public ActionResult Shop()
+        {
+            return View();
+        }
     }
 }

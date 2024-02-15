@@ -1,40 +1,38 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
-    <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
-    <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
-    <script src="~/Scripts/modernizr-2.6.2.js"></script>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Responsive Bootstrap4 Shop Template, Created by Imran Hossain from https://imransdesign.com/">
+
+    <!-- title -->
+    <title>Fruitkha</title>
+
+    <!-- favicon -->
+    <link rel="shortcut icon" type="image/png" href="/wwwroot/img/favicon.png">
+    <!-- google font -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Poppins:400,700&display=swap" rel="stylesheet">
+    <!-- fontawesome -->
+    <link rel="stylesheet" href="/wwwroot/css/all.min.css">
+    <!-- bootstrap -->
+    <link rel="stylesheet" href="/wwwroot/bootstrap/css/bootstrap.min.css">
+    <!-- owl carousel -->
+    <link rel="stylesheet" href="/wwwroot/css/owl.carousel.css">
+    <!-- magnific popup -->
+    <link rel="stylesheet" href="/wwwroot/css/magnific-popup.css">
+    <!-- animate css -->
+    <link rel="stylesheet" href="/wwwroot/css/animate.css">
+    <!-- mean menu css -->
+    <link rel="stylesheet" href="/wwwroot/css/meanmenu.min.css">
+    <!-- main style -->
+    <link rel="stylesheet" href="/wwwroot/css/main.css">
+    <!-- responsive -->
+    <link rel="stylesheet" href="/wwwroot/css/responsive.css">
+
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                </ul>
-            </div>
-        </div>
-    </div>
-
-    <div class="container body-content">
         @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
-        </footer>
-    </div>
-
-    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
-    <script src="~/Scripts/bootstrap.min.js"></script>
 </body>
 </html>
