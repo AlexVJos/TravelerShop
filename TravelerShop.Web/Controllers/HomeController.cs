@@ -43,5 +43,10 @@ namespace TravelerShop.Web.Controllers
         {
             return View();
         }
+
+        public ActionResult SingleProduct()
+        {
+            return View();
+        }
     }
 }

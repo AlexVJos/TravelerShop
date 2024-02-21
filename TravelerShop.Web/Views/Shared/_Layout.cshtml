@@ -33,6 +33,49 @@
 
 </head>
 <body>
-        @RenderBody()
+
+    <!-- header -->
+    <div class="top-header-area" id="sticker">
+        @Html.Partial("_Header")
+    </div>
+
+    <!-- search area -->
+    <div class="search-area">
+        @Html.Partial("_SearchArea")
+    </div>
+
+    @RenderBody()
+
+    <!-- footer -->
+    <div class="footer-area">
+        @Html.Partial("_Footer")
+    </div>
+
+    <!-- copyright -->
+    <div class="copyright">
+        @Html.Partial("_Copyright")
+    </div>
+
+    <!-- jquery -->
+    <script src="/wwwroot/js/jquery-1.11.3.min.js"></script>
+    <!-- bootstrap -->
+    <script src="/wwwroot/bootstrap/js/bootstrap.min.js"></script>
+    <!-- count down -->
+    <script src="/wwwroot/js/jquery.countdown.js"></script>
+    <!-- isotope -->
+    <script src="/wwwroot/js/jquery.isotope-3.0.6.min.js"></script>
+    <!-- waypoints -->
+    <script src="/wwwroot/js/waypoints.js"></script>
+    <!-- owl carousel -->
+    <script src="/wwwroot/js/owl.carousel.min.js"></script>
+    <!-- magnific popup -->
+    <script src="/wwwroot/js/jquery.magnific-popup.min.js"></script>
+    <!-- mean menu -->
+    <script src="/wwwroot/js/jquery.meanmenu.min.js"></script>
+    <!-- sticker js -->
+    <script src="/wwwroot/js/sticker.js"></script>
+    <!-- main js -->
+    <script src="/wwwroot/js/main.js"></script>
+
 </body>
 </html>
