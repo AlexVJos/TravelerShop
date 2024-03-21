@@ -5,6 +5,10 @@ VisualStudioVersion = 17.8.34525.116
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TravelerShop.Web", "TravelerShop.Web\TravelerShop.Web.csproj", "{B0D402C1-B124-406C-B4A4-D09A4BB52344}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TravelerShop.BusinessLogic", "TravelerShop.BusinessLogic\TravelerShop.BusinessLogic.csproj", "{3D1B3667-5940-4226-8DFC-1D137C721594}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TravelerShop.Domain", "TravelerShop.Domain\TravelerShop.Domain.csproj", "{354BFD29-D8B7-41A2-AAD5-DC24504A2679}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{B0D402C1-B124-406C-B4A4-D09A4BB52344}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B0D402C1-B124-406C-B4A4-D09A4BB52344}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B0D402C1-B124-406C-B4A4-D09A4BB52344}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3D1B3667-5940-4226-8DFC-1D137C721594}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3D1B3667-5940-4226-8DFC-1D137C721594}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3D1B3667-5940-4226-8DFC-1D137C721594}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3D1B3667-5940-4226-8DFC-1D137C721594}.Release|Any CPU.Build.0 = Release|Any CPU
+		{354BFD29-D8B7-41A2-AAD5-DC24504A2679}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{354BFD29-D8B7-41A2-AAD5-DC24504A2679}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{354BFD29-D8B7-41A2-AAD5-DC24504A2679}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{354BFD29-D8B7-41A2-AAD5-DC24504A2679}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

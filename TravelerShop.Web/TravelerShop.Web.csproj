@@ -160,9 +160,13 @@
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\LoginData.cs" />
+    <Compile Include="Models\UserData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -236,7 +240,18 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\" />
+    <Folder Include="Views\Login\" />
+    <Folder Include="Views\Product\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TravelerShop.BusinessLogic\TravelerShop.BusinessLogic.csproj">
+      <Project>{3d1b3667-5940-4226-8dfc-1d137c721594}</Project>
+      <Name>TravelerShop.BusinessLogic</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TravelerShop.Domain\TravelerShop.Domain.csproj">
+      <Project>{354bfd29-d8b7-41a2-aad5-dc24504a2679}</Project>
+      <Name>TravelerShop.Domain</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
