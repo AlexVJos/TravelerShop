@@ -156,6 +156,12 @@ p:last-child {
 # All Common Styles
 
 ----------------------------------------------------------------------------- */
+
+
+
+
+/*--------------------MY STYLES---------------------*/.sbm-btn {    background: none;    margin: 0;    margin-bottom: 20px;    border-radius: 50px;    transition: 0.3s;    font-family: Poppins, sans-serif;    display: inline-block;    background-color: rgb(242, 129, 35);    color: rgb(255, 255, 255);    padding: 10px 20px;}.sbm-btn:hover {    background-color: #1c1c1c;    color: #ff6d00;}/*--------------------------------------------------*/
+
 .loader {
   bottom: 0;
   height: 100%;

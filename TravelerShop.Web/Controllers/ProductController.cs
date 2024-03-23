@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using TravelerShop.BusinessLogic.Interfaces;
 using TravelerShop.BusinessLogic;
 using TravelerShop.Domain.Entities.Product;
+using TravelerShop.Web.Models;
 
 namespace TravelerShop.Web.Controllers
 {
@@ -46,8 +47,14 @@ namespace TravelerShop.Web.Controllers
             return View(model);
         }
 
-        public ActionResult Edit(int id)
+        public ActionResult AddNewProduct()
         {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult AddNewProduct(ProductData model)
+        {
+            if(model == null) { return View(); }
             return View();
         }
     }
