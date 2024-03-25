@@ -63,5 +63,16 @@ namespace TravelerShop.BusinessLogic.Core
             return new ProductDataModel { SingleProduct = product };
 
         }
+
+        //-----------------------------УБРАТЬ ЭТОТ МЕТОД ОТСЮДА------------------------------------//
+        internal RResponseData ProductAddToDb(Product product)
+        {
+            //CHECK IF UNIQUE
+            //ADD PRODUCT TO DB
+            //return new RResponseData { Status = true };
+            return new RResponseData { Status = false };
+        }
+
+
     }
 }

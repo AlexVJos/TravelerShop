@@ -7,6 +7,9 @@ using TravelerShop.BusinessLogic.Interfaces;
 using TravelerShop.BusinessLogic;
 using TravelerShop.Domain.Entities.Product;
 using TravelerShop.Web.Models;
+using TravelerShop.Domain.Entities.Product.DBModel;
+using TravelerShop.Domain.Entities.GeneralResponse;
+using TravelerShop.Domain.Entities.User;
 
 namespace TravelerShop.Web.Controllers
 {
@@ -54,7 +57,23 @@ namespace TravelerShop.Web.Controllers
         [HttpPost]
         public ActionResult AddNewProduct(ProductData model)
         {
-            if(model == null) { return View(); }
+            if(ModelState.IsValid)
+            {
+                var product = new Product
+                {
+                    Name = model.Name,
+                    Description = model.Description,
+                    Price = model.Price,
+                    Category = model.Category,
+                    Amount = model.Amount
+                };
+
+                RResponseData responce = _product.AddProdToDb(product);
+                if (responce.Status)
+                {
+                    return RedirectToAction("Index", "Home");
+                }
+            }
             return View();
         }
     }
