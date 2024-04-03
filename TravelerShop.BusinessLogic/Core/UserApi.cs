@@ -24,7 +24,7 @@ namespace TravelerShop.BusinessLogic.Core
                 Status = false,
                 CurrentUser = new User
                 {
-                    UserName = "Vasilica"
+                    Username = "Vasilica"
                 }
             };
         }
@@ -65,12 +65,12 @@ namespace TravelerShop.BusinessLogic.Core
         }
 
         //-----------------------------УБРАТЬ ЭТОТ МЕТОД ОТСЮДА------------------------------------//
-        internal RResponseData ProductAddToDb(Product product)
+        internal ProdResponseData ProductAddToDb(Product product)
         {
             //CHECK IF UNIQUE
             //ADD PRODUCT TO DB
             //return new RResponseData { Status = true };
-            return new RResponseData { Status = false };
+            return new ProdResponseData { Status = false };
         }
 
 
