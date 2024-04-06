@@ -9,7 +9,7 @@ namespace TravelerShop.Domain.Entities.GeneralResponse
     public class ProdResponseData
     {
         public bool Status { get; set; }
-        public string ResponceMessage { get; set; }
+        public string ResponseMessage { get; set; }
         public Product.DBModel.Product CurrentProduct { get; set; }
     }
 }

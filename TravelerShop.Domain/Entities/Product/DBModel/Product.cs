@@ -27,7 +27,7 @@ namespace TravelerShop.Domain.Entities.Product.DBModel
         public PCategory Category { get; set; }
         [Required]
         public int Amount { get; set; } = 1;
-        public double Rating { get; set; } = 0;
+        public double Rating { get; set; }
         public byte[] Image { get; set; }
         [DataType(DataType.Date)]
         public DateTime CreatedDate { get; set; } = DateTime.Now;
