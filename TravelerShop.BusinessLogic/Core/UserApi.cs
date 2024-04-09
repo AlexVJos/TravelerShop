@@ -24,7 +24,7 @@ namespace TravelerShop.BusinessLogic.Core
                 Status = false,
                 CurrentUser = new User
                 {
-                    UserName = "Vasilica"
+ //                   UserName = "Vasilica"
                 }
             };
         }
