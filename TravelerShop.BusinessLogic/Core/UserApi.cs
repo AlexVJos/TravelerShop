@@ -9,6 +9,8 @@ using TravelerShop.Domain.Entities.User;
 using TravelerShop.Domain.Entities.GeneralResponse;
 using TravelerShop.Domain.Entities.Auth;
 using TravelerShop.Domain.Entities.User.DBModel;
+using TravelerShop.BusinessLogic.DBModel;
+using Microsoft.EntityFrameworkCore;
 
 namespace TravelerShop.BusinessLogic.Core
 {
@@ -24,7 +26,7 @@ namespace TravelerShop.BusinessLogic.Core
                 Status = false,
                 CurrentUser = new User
                 {
- //                   UserName = "Vasilica"
+                    Username = "Vasilica"
                 }
             };
         }
@@ -65,12 +67,34 @@ namespace TravelerShop.BusinessLogic.Core
         }
 
         //-----------------------------УБРАТЬ ЭТОТ МЕТОД ОТСЮДА------------------------------------//
-        internal RResponseData ProductAddToDb(Product product)
+        internal ProdResponseData ProductAddToDb(Product prod)
         {
             //CHECK IF UNIQUE
             //ADD PRODUCT TO DB
             //return new RResponseData { Status = true };
-            return new RResponseData { Status = false };
+            
+
+            using (var db = new ProductContext())
+            {
+                var product = db.Products.FirstOrDefault(p => p.Name == prod.Name);
+                if (product == null)
+                {
+                    db.Products.Add(prod);
+                    db.SaveChanges();
+                    return new ProdResponseData
+                    {
+                        Status = true,
+                        ResponseMessage = "Product " + prod.Name + " was added succesfully.",
+                        CurrentProduct = prod
+                    };
+                }
+            }
+            return new ProdResponseData
+            {
+                Status = false,
+                ResponseMessage = "Unable to add " + prod.Name,
+                CurrentProduct = prod
+            };
         }
 
 

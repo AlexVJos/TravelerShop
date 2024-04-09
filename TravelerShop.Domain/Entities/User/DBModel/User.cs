@@ -29,7 +29,7 @@ namespace TravelerShop.Domain.Entities.User.DBModel
         [DataType(DataType.Date)]
         public DateTime LastLogin { get; set; }
         [StringLength(30)]
-        public string LasIp { get; set; }
+        public string LastIp { get; set; }
         public URole Level { get; set; }
     }
 }

@@ -22,7 +22,7 @@ namespace TravelerShop.BusinessLogic.MainBL
         {
             return ProductGetSingleAction(id);
         }
-        public RResponseData AddProdToDb(Product prod)
+        public ProdResponseData AddProdToDb(Product prod)
         {
             return ProductAddToDb(prod);
         }

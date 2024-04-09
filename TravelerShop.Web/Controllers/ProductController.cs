@@ -10,6 +10,8 @@ using TravelerShop.Web.Models;
 using TravelerShop.Domain.Entities.Product.DBModel;
 using TravelerShop.Domain.Entities.GeneralResponse;
 using TravelerShop.Domain.Entities.User;
+using System.IO;
+using System.Web.UI.WebControls;
 
 namespace TravelerShop.Web.Controllers
 {
@@ -55,10 +57,12 @@ namespace TravelerShop.Web.Controllers
             return View();
         }
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult AddNewProduct(ProductData model)
         {
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
+                
                 var product = new Product
                 {
                     Name = model.Name,
@@ -68,7 +72,15 @@ namespace TravelerShop.Web.Controllers
                     Amount = model.Amount
                 };
 
-                RResponseData responce = _product.AddProdToDb(product);
+                if (model.ImageFile != null && model.ImageFile.ContentLength > 0)
+                {
+                    using (var binaryReader = new BinaryReader(model.ImageFile.InputStream))
+                    {
+                        product.Image = binaryReader.ReadBytes(model.ImageFile.ContentLength);
+                    }
+                }
+
+                ProdResponseData responce = _product.AddProdToDb(product);
                 if (responce.Status)
                 {
                     return RedirectToAction("Index", "Home");
