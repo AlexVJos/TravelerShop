@@ -16,7 +16,7 @@ namespace TravelerShop.BusinessLogic
     {
         public RResponseData UserLoginAction(ULoginData data)
         {
-            return ULASessionCheck(data);
+            return LoginUpService(data);
         }
 
         public UCoockieData GenCoockieAlgo(User dataUser)

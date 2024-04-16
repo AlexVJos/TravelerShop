@@ -97,6 +97,18 @@ namespace TravelerShop.BusinessLogic.Core
             };
         }
 
+        internal RResponseData LoginUpService(ULoginData data)
+        {
+            User user;
+
+            using (var db = new UserContext())
+            {
+                user = db.Users.First();
+            }
+
+            return new RResponseData { Status = false };
+        }
+
 
     }
 }
