@@ -28,6 +28,7 @@ namespace TravelerShop.Web.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Index(LoginData data)
         {
 

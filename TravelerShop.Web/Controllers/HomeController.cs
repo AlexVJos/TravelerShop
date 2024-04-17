@@ -3,15 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using TravelerShop.Domain.Entities.User;
+using TravelerShop.Web.Models;
 
 namespace TravelerShop.Web.Controllers
 {
     public class HomeController : Controller
     {
         // GET: Home
-        public ActionResult Index()
+        public ActionResult Index(LoginData login)
         {
-            return View();
+           return View();
         }
 
         public ActionResult About()
