@@ -52,6 +52,7 @@ namespace TravelerShop.Web.Controllers
             return View(model);
         }
 
+        //[Authorize(Roles = "Admin")]
         public ActionResult AddNewProduct()
         {
             return View();

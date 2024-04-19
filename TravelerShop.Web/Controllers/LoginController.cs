@@ -34,7 +34,7 @@ namespace TravelerShop.Web.Controllers
 
             var uLoginData = new ULoginData
             {
-                Credential = data.Username,
+                Username = data.Username,
                 Password = data.Password,
                 Ip = "",
                 FirstLoginTime = DateTime.Now
@@ -51,8 +51,6 @@ namespace TravelerShop.Web.Controllers
                     //SET COOCKKE TO USER
                 }
             }
-
-
             return View();
         }
     }
