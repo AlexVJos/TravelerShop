@@ -19,6 +19,11 @@ namespace TravelerShop.BusinessLogic
             return LoginUpService(data);
         }
 
+        public RResponseData UserRegisterAction(URegisterData data)
+        {
+            return RegisterService(data);
+        }
+
         public UCoockieData GenCoockieAlgo(User dataUser)
         {
             return UserCoockieGenerationAlg(dataUser);

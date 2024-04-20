@@ -13,6 +13,8 @@ namespace TravelerShop.BusinessLogic.Interfaces
     {
         ProductDataModel GetProductsToList();
         ProductDataModel GetSingleProduct(int id);
-        ProdResponseData AddProdToDb(Product product);
+        ProdResponseData AddProductToDb(Product product);
+        ProdResponseData DeleteProduct(int id);
+        ProdResponseData EditProduct(Product product);
     }
 }

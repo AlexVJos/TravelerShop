@@ -9,6 +9,8 @@ using TravelerShop.Domain.Entities.Auth;
 using TravelerShop.Domain.Entities.GeneralResponse;
 using TravelerShop.Domain.Entities.User;
 using TravelerShop.Web.Models;
+using TravelerShop.Web.Models.User;
+using TravelerShop.Domain.Entities.User.DBModel;
 
 namespace TravelerShop.Web.Controllers
 {
@@ -52,6 +54,28 @@ namespace TravelerShop.Web.Controllers
                 }
             }
             return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Register(RegisterData data)
+        {
+            var uRegisterData = new URegisterData
+            {
+                Username = data.Username,
+                Name = data.Name,
+                Surname = data.Surname,
+                Email = data.Email,
+                Password = data.Password,
+                Ip = "0.0.0.0",
+                RegistrationDate = DateTime.Now
+            };
+
+            RResponseData response = _session.UserRegisterAction(uRegisterData);
+
+
+
+            return RedirectToAction("Index", "Home");
         }
     }
 }

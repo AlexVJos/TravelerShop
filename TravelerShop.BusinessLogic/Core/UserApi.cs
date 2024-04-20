@@ -16,19 +16,51 @@ namespace TravelerShop.BusinessLogic.Core
 {
     public class UserApi
     {
-        internal RResponseData ULASessionCheck(ULoginData data)
+        internal RResponseData LoginUpService(ULoginData data)
         {
-
-            //db connection
-
-            return new RResponseData
+            using (var db = new UserContext())
             {
-                Status = false,
-                CurrentUser = new User
-                {
-                    Username = "Vasilica"
-                }
+                var user = db.Users.FirstOrDefault(u => u.Username == data.Username && u.Password == data.Password);
+                if (user != null)
+                    return new RResponseData { Status = true, CurrentUser = user };
+            }
+
+            return new RResponseData { Status = false };
+        }
+        internal RResponseData RegisterService(URegisterData data)
+        {
+            var user = new User
+            {
+                Username = data.Username,
+                Name = data.Name,
+                Surname = data.Surname,
+                Email = data.Email,
+                Password = data.Password,
+                LastLogin = data.RegistrationDate,
+                LastIp = data.Ip,
+                Role = Domain.Enums.URole.User
             };
+
+            using (var db = new UserContext())
+            {
+                var exists = db.Users.FirstOrDefault(u => u.Username == user.Username);
+                if (exists == null)
+                {
+                    db.Users.Add(user);
+                    db.SaveChanges();
+                    return new RResponseData
+                    {
+                        Status = true,
+                        CurrentUser = user
+                    };
+                }
+                return new RResponseData
+                {
+                    Status = false,
+                    ResponceMessage = "User " + user.Username + " already exists.",
+                    CurrentUser = user
+                };
+            }
         }
         internal UCoockieData UserCoockieGenerationAlg(User user)
         {
@@ -47,33 +79,26 @@ namespace TravelerShop.BusinessLogic.Core
 
         internal ProductDataModel ProductActionGetToList()
         {
-
-
-
-
             var products = new List<Product>();
-
-
+            using(var db = new ProductContext())
+            {
+                products = db.Products.ToList();
+            }
             return new ProductDataModel { Products = products };
         }
-        internal ProductDataModel ProductGetSingleAction(int id)
+        internal ProductDataModel GetSingleProductAction(int id)
         {
-
-
             var product = new Product();
-
+            using(var db = new ProductContext())
+            {
+                product = db.Products.Find(id);
+            }
             return new ProductDataModel { SingleProduct = product };
-
         }
 
         //-----------------------------УБРАТЬ ЭТОТ МЕТОД ОТСЮДА------------------------------------//
-        internal ProdResponseData ProductAddToDb(Product prod)
+        internal ProdResponseData AddProductToDbAction(Product prod)
         {
-            //CHECK IF UNIQUE
-            //ADD PRODUCT TO DB
-            //return new RResponseData { Status = true };
-            
-
             using (var db = new ProductContext())
             {
                 var product = db.Products.FirstOrDefault(p => p.Name == prod.Name);
@@ -97,16 +122,49 @@ namespace TravelerShop.BusinessLogic.Core
             };
         }
 
-        internal RResponseData LoginUpService(ULoginData data)
+        internal ProdResponseData DeleteProductAction(int id)
         {
-            using (var db = new UserContext())
+            using(var db = new ProductContext())
             {
-                var user = db.Users.FirstOrDefault(u => u.Username == data.Username);
-                if(user != null)
-                    return new RResponseData { Status = true, CurrentUser = user };
+                var product = db.Products.FirstOrDefault(p => p.ProductId == id);
+                db.Products.Remove(product);
+                db.SaveChanges();
+                return new ProdResponseData
+                {
+                    Status = true,
+                    ResponseMessage = "Product " + product.Name + " was removed successfully."
+                };
             }
-
-            return new RResponseData { Status = false };
         }
+
+        internal ProdResponseData EditProductAction(Product product)
+        {
+            using (var db = new ProductContext())
+            {
+                var existingProduct = db.Products.FirstOrDefault(p => p.ProductId == product.ProductId);
+
+                if (existingProduct != null)
+                {
+                    db.Entry(existingProduct).CurrentValues.SetValues(product);
+                    db.SaveChanges();
+
+                    return new ProdResponseData
+                    {
+                        Status = true,
+                        ResponseMessage = ""
+                    };
+                }
+                else
+                {
+                    return new ProdResponseData
+                    {
+                        Status = false,
+                        ResponseMessage = ""
+                    };
+                }
+            }
+        }
+
+        
     }
 }

@@ -1,4 +1,5 @@
-﻿@{
+﻿@model TravelerShop.Domain.Entities.Product.ProductDataModel
+@{
     ViewBag.Title = "Shop";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -34,7 +35,22 @@
         </div>
 
         <div class="row product-lists">
-            <div class="col-lg-4 col-md-6 text-center strawberry">
+
+            @foreach (var product in Model.Products)
+            {
+                <div class="col-lg-4 col-md-6 text-center strawberry">
+                    <div class="single-product-item">
+                        <div class="product-image">
+                            <a href="@Url.Action("SingleProduct", "Product", new { id = product.ProductId })"><img src="data:image;base64,@Convert.ToBase64String(product.Image)" alt="Product Image"></a>
+                        </div>
+                        <h3>@product.Name</h3>
+                        <p class="product-price">@product.Price$</p>
+                        <a href="cart.html" class="cart-btn"><i class="fas fa-shopping-cart"></i> Add to Cart</a>
+                    </div>
+                </div>
+            }
+
+            @*<div class="col-lg-4 col-md-6 text-center strawberry">
                 <div class="single-product-item">
                     <div class="product-image">
                         <a href="single-product.html"><img src="assets/img/products/product-img-1.jpg" alt=""></a>
@@ -93,7 +109,7 @@
                     <p class="product-price"><span>Per Kg</span> 80$ </p>
                     <a href="cart.html" class="cart-btn"><i class="fas fa-shopping-cart"></i> Add to Cart</a>
                 </div>
-            </div>
+            </div>*@
         </div>
 
         <div class="row">

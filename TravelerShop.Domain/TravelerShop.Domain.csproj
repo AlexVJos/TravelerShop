@@ -51,7 +51,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
     <Compile Include="Entities\Auth\UCoockieData.cs" />
     <Compile Include="Entities\GeneralResponse\ProdResponseData.cs" />
     <Compile Include="Entities\GeneralResponse\RResponseData.cs" />
@@ -59,6 +58,7 @@
     <Compile Include="Entities\Product\ProductDataModel.cs" />
     <Compile Include="Entities\User\DBModel\User.cs" />
     <Compile Include="Entities\User\ULoginData.cs" />
+    <Compile Include="Entities\User\URegisterData.cs" />
     <Compile Include="Enums\PCategories.cs" />
     <Compile Include="Enums\URole.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

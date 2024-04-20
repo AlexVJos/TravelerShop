@@ -12,7 +12,7 @@ namespace TravelerShop.BusinessLogic.DBModel
     public class UserContext: DbContext
     {
         public UserContext() :
-            base("name=eUseControl")
+            base("name=TravelerShop")
         {
         }
         public virtual DbSet<User> Users {  get; set; }

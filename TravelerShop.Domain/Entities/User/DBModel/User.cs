@@ -19,6 +19,12 @@ namespace TravelerShop.Domain.Entities.User.DBModel
         [StringLength(30, MinimumLength = 5, ErrorMessage = "Username cannot be longer than 30 characters")]
         public string Username { get; set; }
         [Required]
+        [StringLength(15)]
+        public string Name { get; set; }
+        [Required]
+        [StringLength(30)]
+        public string Surname { get; set; }
+        [Required]
         [Display(Name = "Email Address")]
         [StringLength(30)]
         public string Email { get; set; }
@@ -30,6 +36,6 @@ namespace TravelerShop.Domain.Entities.User.DBModel
         public DateTime LastLogin { get; set; }
         [StringLength(30)]
         public string LastIp { get; set; }
-        public URole Level { get; set; }
+        public URole Role { get; set; }
     }
 }

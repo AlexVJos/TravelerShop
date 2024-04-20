@@ -13,6 +13,7 @@ namespace TravelerShop.BusinessLogic.Interfaces
     public interface ISession
     {
         RResponseData UserLoginAction(ULoginData data);
+        RResponseData UserRegisterAction(URegisterData data);
         UCoockieData GenCoockieAlgo(User dataUser);
     }
 }
