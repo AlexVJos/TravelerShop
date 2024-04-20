@@ -26,9 +26,9 @@
                 <div class="product-filters">
                     <ul>
                         <li class="active" data-filter="*">All</li>
-                        <li data-filter=".strawberry">Strawberry</li>
-                        <li data-filter=".berry">Berry</li>
-                        <li data-filter=".lemon">Lemon</li>
+                        <li data-filter=".Knife">Knife</li>
+                        <li data-filter=".Axe">Axe</li>
+                        <li data-filter=".Backpack">Backpack</li>
                     </ul>
                 </div>
             </div>
@@ -38,78 +38,116 @@
 
             @foreach (var product in Model.Products)
             {
-                <div class="col-lg-4 col-md-6 text-center strawberry">
+                <div class="col-lg-4 col-md-6 text-center @product.Category">
                     <div class="single-product-item">
                         <div class="product-image">
                             <a href="@Url.Action("SingleProduct", "Product", new { id = product.ProductId })"><img src="data:image;base64,@Convert.ToBase64String(product.Image)" alt="Product Image"></a>
                         </div>
                         <h3>@product.Name</h3>
                         <p class="product-price">@product.Price$</p>
+                        <a href="@Url.Action("Edit", "Product", new { id = product.ProductId })" class="btn btn-primary">Edit</a>
+                        <a href="javascript:void(0)" class="btn btn-danger" onclick="showDeleteModal('@product.Name', '@Url.Action("Delete", "Product", new { id = product.ProductId })')">Delete</a>
                         <a href="cart.html" class="cart-btn"><i class="fas fa-shopping-cart"></i> Add to Cart</a>
                     </div>
                 </div>
             }
 
+            <!-- Modal -->            
+            <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="deleteModalLabel">Удаление продукта</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            Вы действительно хотите удалить <span id="productNameToDelete"></span>?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Да</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Нет</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <script>
+                function showDeleteModal(productName, deleteUrl) {
+                    $('#productNameToDelete').text(productName);
+                    $('#confirmDeleteBtn').attr('onclick', 'deleteProduct("' + deleteUrl + '")');
+                    $('#deleteModal').modal('show');
+                }
+
+                function deleteProduct(deleteUrl) {
+                    window.location.href = deleteUrl;
+                }
+            </script>
+
+
+
+
             @*<div class="col-lg-4 col-md-6 text-center strawberry">
-                <div class="single-product-item">
-                    <div class="product-image">
-                        <a href="single-product.html"><img src="assets/img/products/product-img-1.jpg" alt=""></a>
-                    </div>
-                    <h3>Strawberry</h3>
-                    <p class="product-price"><span>Per Kg</span> 85$ </p>
-                    <a href="cart.html" class="cart-btn"><i class="fas fa-shopping-cart"></i> Add to Cart</a>
+            <div class="single-product-item">
+                <div class="product-image">
+                    <a href="single-product.html"><img src="assets/img/products/product-img-1.jpg" alt=""></a>
                 </div>
+                <h3>Strawberry</h3>
+                <p class="product-price"><span>Per Kg</span> 85$ </p>
+                <a href="cart.html" class="cart-btn"><i class="fas fa-shopping-cart"></i> Add to Cart</a>
             </div>
-            <div class="col-lg-4 col-md-6 text-center berry">
-                <div class="single-product-item">
-                    <div class="product-image">
-                        <a href="single-product.html"><img src="assets/img/products/product-img-2.jpg" alt=""></a>
-                    </div>
-                    <h3>Berry</h3>
-                    <p class="product-price"><span>Per Kg</span> 70$ </p>
-                    <a href="cart.html" class="cart-btn"><i class="fas fa-shopping-cart"></i> Add to Cart</a>
+        </div>
+        <div class="col-lg-4 col-md-6 text-center berry">
+            <div class="single-product-item">
+                <div class="product-image">
+                    <a href="single-product.html"><img src="assets/img/products/product-img-2.jpg" alt=""></a>
                 </div>
+                <h3>Berry</h3>
+                <p class="product-price"><span>Per Kg</span> 70$ </p>
+                <a href="cart.html" class="cart-btn"><i class="fas fa-shopping-cart"></i> Add to Cart</a>
             </div>
-            <div class="col-lg-4 col-md-6 text-center lemon">
-                <div class="single-product-item">
-                    <div class="product-image">
-                        <a href="single-product.html"><img src="assets/img/products/product-img-3.jpg" alt=""></a>
-                    </div>
-                    <h3>Lemon</h3>
-                    <p class="product-price"><span>Per Kg</span> 35$ </p>
-                    <a href="cart.html" class="cart-btn"><i class="fas fa-shopping-cart"></i> Add to Cart</a>
+        </div>
+        <div class="col-lg-4 col-md-6 text-center lemon">
+            <div class="single-product-item">
+                <div class="product-image">
+                    <a href="single-product.html"><img src="assets/img/products/product-img-3.jpg" alt=""></a>
                 </div>
+                <h3>Lemon</h3>
+                <p class="product-price"><span>Per Kg</span> 35$ </p>
+                <a href="cart.html" class="cart-btn"><i class="fas fa-shopping-cart"></i> Add to Cart</a>
             </div>
-            <div class="col-lg-4 col-md-6 text-center">
-                <div class="single-product-item">
-                    <div class="product-image">
-                        <a href="single-product.html"><img src="assets/img/products/product-img-4.jpg" alt=""></a>
-                    </div>
-                    <h3>Avocado</h3>
-                    <p class="product-price"><span>Per Kg</span> 50$ </p>
-                    <a href="cart.html" class="cart-btn"><i class="fas fa-shopping-cart"></i> Add to Cart</a>
+        </div>
+        <div class="col-lg-4 col-md-6 text-center">
+            <div class="single-product-item">
+                <div class="product-image">
+                    <a href="single-product.html"><img src="assets/img/products/product-img-4.jpg" alt=""></a>
                 </div>
+                <h3>Avocado</h3>
+                <p class="product-price"><span>Per Kg</span> 50$ </p>
+                <a href="cart.html" class="cart-btn"><i class="fas fa-shopping-cart"></i> Add to Cart</a>
             </div>
-            <div class="col-lg-4 col-md-6 text-center">
-                <div class="single-product-item">
-                    <div class="product-image">
-                        <a href="single-product.html"><img src="assets/img/products/product-img-5.jpg" alt=""></a>
-                    </div>
-                    <h3>Green Apple</h3>
-                    <p class="product-price"><span>Per Kg</span> 45$ </p>
-                    <a href="cart.html" class="cart-btn"><i class="fas fa-shopping-cart"></i> Add to Cart</a>
+        </div>
+        <div class="col-lg-4 col-md-6 text-center">
+            <div class="single-product-item">
+                <div class="product-image">
+                    <a href="single-product.html"><img src="assets/img/products/product-img-5.jpg" alt=""></a>
                 </div>
+                <h3>Green Apple</h3>
+                <p class="product-price"><span>Per Kg</span> 45$ </p>
+                <a href="cart.html" class="cart-btn"><i class="fas fa-shopping-cart"></i> Add to Cart</a>
             </div>
-            <div class="col-lg-4 col-md-6 text-center strawberry">
-                <div class="single-product-item">
-                    <div class="product-image">
-                        <a href="single-product.html"><img src="assets/img/products/product-img-6.jpg" alt=""></a>
-                    </div>
-                    <h3>Strawberry</h3>
-                    <p class="product-price"><span>Per Kg</span> 80$ </p>
-                    <a href="cart.html" class="cart-btn"><i class="fas fa-shopping-cart"></i> Add to Cart</a>
+        </div>
+        <div class="col-lg-4 col-md-6 text-center strawberry">
+            <div class="single-product-item">
+                <div class="product-image">
+                    <a href="single-product.html"><img src="assets/img/products/product-img-6.jpg" alt=""></a>
                 </div>
-            </div>*@
+                <h3>Strawberry</h3>
+                <p class="product-price"><span>Per Kg</span> 80$ </p>
+                <a href="cart.html" class="cart-btn"><i class="fas fa-shopping-cart"></i> Add to Cart</a>
+            </div>
+        </div>*@
         </div>
 
         <div class="row">

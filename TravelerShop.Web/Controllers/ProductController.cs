@@ -84,8 +84,30 @@ namespace TravelerShop.Web.Controllers
         }
         public ActionResult Edit(int id)
         {
-            //ProdResponseData response = _product.EditProduct(id);
-            return RedirectToAction("Index", "Home");
+            ProductDataModel singleProduct = _product.GetSingleProduct(id);
+            return View(singleProduct);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(ProductDataModel data)
+        {
+            var product = new Product
+            {
+                ProductId = data.SingleProduct.ProductId,
+                Name = data.SingleProduct.Name,
+                Description = data.SingleProduct.Description,
+                Price = data.SingleProduct.Price,
+                Category = data.SingleProduct.Category,
+                Amount = data.SingleProduct.Amount,
+            };
+            using (var binaryReader = new BinaryReader(data.ImageFile.InputStream))
+            {
+                product.Image = binaryReader.ReadBytes(data.ImageFile.ContentLength);
+            }
+
+            ProdResponseData response = _product.EditProduct(product);
+            return RedirectToAction("Index", "Product");
         }
     }
 }

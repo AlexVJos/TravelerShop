@@ -151,7 +151,8 @@ namespace TravelerShop.BusinessLogic.Core
                     return new ProdResponseData
                     {
                         Status = true,
-                        ResponseMessage = ""
+                        ResponseMessage = "Product '" + existingProduct.Name + "' was updated successfully.",
+                        CurrentProduct = existingProduct
                     };
                 }
                 else
@@ -159,7 +160,7 @@ namespace TravelerShop.BusinessLogic.Core
                     return new ProdResponseData
                     {
                         Status = false,
-                        ResponseMessage = ""
+                        ResponseMessage = "Product '" + product.Name +"' doesn't exist."
                     };
                 }
             }

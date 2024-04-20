@@ -7,7 +7,7 @@
     bool isAdmin = User.IsInRole("Admin");
 }
 
-@if (isAdmin)
+@if (!isAdmin)
 {
     // Отображаем кнопку "ADMIN" только для администраторов
     <a href="@Url.Action("AddNewProduct", "Product")" class="boxed-btn" style="position: absolute;">ADMIN</a>
