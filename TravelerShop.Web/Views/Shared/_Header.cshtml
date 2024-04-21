@@ -2,8 +2,16 @@
 @{
     ViewBag.Title = "_Header";
 }
+@{
+    // Проверяем, является ли текущий пользователь администратором
+    bool isAdmin = User.IsInRole("Admin");
+}
 
-<a href="@Url.Action("AddNewProduct", "Product")" class="boxed-btn" style="position: absolute;">ADMIN</a>
+@if (!isAdmin)
+{
+    // Отображаем кнопку "ADMIN" только для администраторов
+    <a href="@Url.Action("AddNewProduct", "Product")" class="boxed-btn" style="position: absolute;">ADMIN</a>
+}
 <div class="container">
     <div class="row">
         <div class="col-lg-12 col-sm-12 text-center">
@@ -35,7 +43,7 @@
                                 <li><a href="@Url.Action("Checkout", "Home")">Check Out</a></li>
                                 <li><a href="@Url.Action("Contact", "Home")">Контакты</a></li>
                                 <li><a href="@Url.Action("News", "Home")">Новости</a></li>
-                                <li><a href="@Url.Action("Shop", "Home")">Каталог</a></li>
+                                <li><a href="@Url.Action("Index", "Product")">Каталог</a></li>
                             </ul>
                         </li>
                         <li>

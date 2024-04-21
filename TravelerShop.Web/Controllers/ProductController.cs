@@ -27,31 +27,18 @@ namespace TravelerShop.Web.Controllers
         // GET: Product
         public ActionResult Index()
         {
-
             ProductDataModel products = _product.GetProductsToList();
-
-            var model = new
-            {
-                products
-            };
-
-
-            return View(model);
+            return View(products);
         }
 
-        public ActionResult Details(int id)
+        public ActionResult SingleProduct(int id)
         {
 
             ProductDataModel singleProduct = _product.GetSingleProduct(id);
-
-            var model = new
-            {
-                singleProduct
-            };
-
-            return View(model);
+            return View(singleProduct);
         }
 
+        //[Authorize(Roles = "Admin")]
         public ActionResult AddNewProduct()
         {
             return View();
@@ -61,8 +48,7 @@ namespace TravelerShop.Web.Controllers
         public ActionResult AddNewProduct(ProductData model)
         {
             if (ModelState.IsValid)
-            {
-                
+            {               
                 var product = new Product
                 {
                     Name = model.Name,
@@ -80,13 +66,52 @@ namespace TravelerShop.Web.Controllers
                     }
                 }
 
-                ProdResponseData responce = _product.AddProdToDb(product);
+                ProdResponseData responce = _product.AddProductToDb(product);
                 if (responce.Status)
                 {
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index", "Product");
                 }
             }
             return View();
+        }
+        public ActionResult Delete(int id)
+        {
+            ProdResponseData response = _product.DeleteProduct(id);
+            if(response.Status)
+                return RedirectToAction("Index", "Home");
+            return View();
+        }
+        public ActionResult Edit(int id)
+        {
+            ProductDataModel singleProduct = _product.GetSingleProduct(id);
+            return View(singleProduct);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(ProductDataModel data)
+        {
+            if(ModelState.IsValid)
+            {
+                var product = new Product
+                {
+                    ProductId = data.SingleProduct.ProductId,
+                    Name = data.SingleProduct.Name,
+                    Description = data.SingleProduct.Description,
+                    Price = data.SingleProduct.Price,
+                    Category = data.SingleProduct.Category,
+                    Amount = data.SingleProduct.Amount,
+                };
+                using (var binaryReader = new BinaryReader(data.ImageFile.InputStream))
+                {
+                    product.Image = binaryReader.ReadBytes(data.ImageFile.ContentLength);
+                }
+
+                ProdResponseData response = _product.EditProduct(product);
+                if(response.Status)
+                    return RedirectToAction("Index", "Product");
+            }
+            return RedirectToAction("Index", "Home");
         }
     }
 }

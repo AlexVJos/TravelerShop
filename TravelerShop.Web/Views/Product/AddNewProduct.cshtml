@@ -1,110 +1,43 @@
 ﻿@model TravelerShop.Web.Models.ProductData
 @{
     ViewBag.Title = "AddNewProduct";
-    Layout = null;
+    Layout = "~/Views/Shared/_AddEditLayout.cshtml";
 }
-
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Responsive Bootstrap4 Shop Template, Created by Imran Hossain from https://imransdesign.com/">
-    <title>TravelerShop - Добавить новый товар</title>
-    <link rel="shortcut icon" type="image/png" href="/wwwroot/img/favicon.png">
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Poppins:400,700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/wwwroot/css/all.min.css">
-    <link rel="stylesheet" href="/wwwroot/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/wwwroot/css/owl.carousel.css">
-    <link rel="stylesheet" href="/wwwroot/css/magnific-popup.css">
-    <link rel="stylesheet" href="/wwwroot/css/animate.css">
-    <link rel="stylesheet" href="/wwwroot/css/meanmenu.min.css">
-    <link rel="stylesheet" href="/wwwroot/css/main.css">
-    <link rel="stylesheet" href="/wwwroot/css/responsive.css">
-</head>
-<body>
-
-    <!-- header -->
-    <div style="width: 1529px; position: fixed; top: 0px; z-index: inherit; background-color: #051922; padding: 15px;" id="sticker">
-        @Html.Partial("_Header")
-    </div>
-
-    <!-- search area -->
-    <div class="search-area">
-        @Html.Partial("_SearchArea")
-    </div>
-
-    <!-- main content area -->
-    <div class="container mt-100">
-        <div class="row">
-            <div class="col-lg-12">
-                <h1 class="text-center mt-5 mb-4">Добавить новый товар</h1>
-                @using (Html.BeginForm("AddNewProduct", "Product", FormMethod.Post, new { enctype = "multipart/form-data" }))
-                {
-                    @Html.AntiForgeryToken()
-                    <div class="form-group">
-                        <label for="name">Название товара:</label>
-                        @Html.TextBoxFor(m => m.Name, new { @class = "form-control", @required = "required" })
-                    </div>
-                    <div class="form-group">
-                        <label for="description">Описание товара:</label>
-                        @Html.TextAreaFor(m => m.Description, new { @class = "form-control", @required = "required" })
-                    </div>
-                    <div class="form-group">
-                        <label for="price">Цена товара:</label>
-                        @Html.TextBoxFor(model => model.Price, new { @class = "form-control", @type = "number", @step = "0.01", @required = "required" })
-                    </div>
-                    <div class="form-group">
-                        <label for="category">Категория товара:</label>
-                        @Html.DropDownListFor(m => m.Category, new SelectList(Enum.GetValues(typeof(TravelerShop.Domain.Enums.PCategory))), new { @class = "form-control", @required = "required" })
-                    </div>
-                    <div class="form-group">
-                        <label for="image">Изображение товара:</label>
-                        @*@Html.TextBoxFor(m => m.Image, new {@type = "file", @class = "form-control-file", @accept = "image/*" })*@
-                        <input type="file" id="imageFile" name="imageFile" class="form-control-file" accept="image/*" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="quantity">Наличие на складе:</label>
-                        @Html.TextBoxFor(m => m.Amount, new { @type = "number", @class = "form-control", @required = "required" })
-                    </div>
-                    <button type="submit" class="sbm-btn">Добавить товар</button>
-                }
-            </div>
+<!-- main content area -->
+<div class="container mt-100">
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="text-center mt-5 mb-4">Добавить новый товар</h1>
+            @using (Html.BeginForm("AddNewProduct", "Product", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                @Html.AntiForgeryToken()
+                <div class="form-group">
+                    <label for="name">Название товара:</label>
+                    @Html.TextBoxFor(m => m.Name, new { @class = "form-control", @required = "required" })
+                </div>
+                <div class="form-group">
+                    <label for="description">Описание товара:</label>
+                    @Html.TextAreaFor(m => m.Description, new { @class = "form-control", @required = "required" })
+                </div>
+                <div class="form-group">
+                    <label for="price">Цена товара:</label>
+                    @Html.TextBoxFor(model => model.Price, new { @class = "form-control", @type = "number", @step = "0.01", @required = "required" })
+                </div>
+                <div class="form-group">
+                    <label for="category">Категория товара:</label>
+                    @Html.DropDownListFor(m => m.Category, new SelectList(Enum.GetValues(typeof(TravelerShop.Domain.Enums.PCategory))), new { @class = "form-control", @required = "required" })
+                </div>
+                <div class="form-group">
+                    <label for="image">Изображение товара:</label>
+                    @*@Html.TextBoxFor(m => m.Image, new {@type = "file", @class = "form-control-file", @accept = "image/*" })*@
+                    <input type="file" id="imageFile" name="imageFile" class="form-control-file" accept="image/*" required>
+                </div>
+                <div class="form-group">
+                    <label for="quantity">Наличие на складе:</label>
+                    @Html.TextBoxFor(m => m.Amount, new { @type = "number", @class = "form-control", @required = "required" })
+                </div>
+                <button type="submit" class="sbm-btn">Добавить товар</button>
+            }
         </div>
     </div>
-
-    <!-- footer -->
-    <div class="footer-area">
-        @Html.Partial("_Footer")
-    </div>
-
-    <!-- copyright -->
-    <div class="copyright">
-        @Html.Partial("_Copyright")
-    </div>
-
-    <!-- jquery -->
-    <script src="/wwwroot/js/jquery-1.11.3.min.js"></script>
-    <!-- bootstrap -->
-    <script src="/wwwroot/bootstrap/js/bootstrap.min.js"></script>
-    <!-- count down -->
-    <script src="/wwwroot/js/jquery.countdown.js"></script>
-    <!-- isotope -->
-    <script src="/wwwroot/js/jquery.isotope-3.0.6.min.js"></script>
-    <!-- waypoints -->
-    <script src="/wwwroot/js/waypoints.js"></script>
-    <!-- owl carousel -->
-    <script src="/wwwroot/js/owl.carousel.min.js"></script>
-    <!-- magnific popup -->
-    <script src="/wwwroot/js/jquery.magnific-popup.min.js"></script>
-    <!-- mean menu -->
-    <script src="/wwwroot/js/jquery.meanmenu.min.js"></script>
-    <!-- sticker js -->
-    <script src="/wwwroot/js/sticker.js"></script>
-    <!-- main js -->
-    <script src="/wwwroot/js/main.js"></script>
-
-</body>
-</html>
+</div>

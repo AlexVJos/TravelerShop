@@ -9,6 +9,8 @@ using TravelerShop.Domain.Entities.Auth;
 using TravelerShop.Domain.Entities.GeneralResponse;
 using TravelerShop.Domain.Entities.User;
 using TravelerShop.Web.Models;
+using TravelerShop.Web.Models.User;
+using TravelerShop.Domain.Entities.User.DBModel;
 
 namespace TravelerShop.Web.Controllers
 {
@@ -34,26 +36,47 @@ namespace TravelerShop.Web.Controllers
 
             var uLoginData = new ULoginData
             {
-                Credential = data.Username,
+                Username = data.Username,
                 Password = data.Password,
                 Ip = "",
-                FirstLoginTime = DateTime.Now
+                LoginDate = DateTime.Now
             };
 
             RResponseData responce = _session.UserLoginAction(uLoginData);
             if (responce != null && responce.Status)
             {
-                //Coockie Generation
-                UCoockieData cData = _session.GenCoockieAlgo(responce.CurrentUser);
+                //Cookie Generation
+                HttpCookie cookie = _session.GenerateCoockie(responce.CurrentUser.Username);
 
-                if (cData != null)
+                if (cookie != null)
                 {
-                    //SET COOCKKE TO USER
+                    //SET COOKIE TO USER
+                    ControllerContext.HttpContext.Response.Cookies.Add(cookie);
                 }
             }
+            return RedirectToAction("Index", "Home");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Register(RegisterData data)
+        {
+            var uRegisterData = new URegisterData
+            {
+                Username = data.Username,
+                Name = data.Name,
+                Surname = data.Surname,
+                Email = data.Email,
+                Password = data.Password,
+                Ip = "0.0.0.0",
+                RegistrationDate = DateTime.Now
+            };
+
+            RResponseData response = _session.UserRegisterAction(uRegisterData);
 
 
-            return View();
+
+            return RedirectToAction("Index", "Home");
         }
     }
 }
