@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 using TravelerShop.Domain.Entities.Auth;
 using TravelerShop.Domain.Entities.GeneralResponse;
 using TravelerShop.Domain.Entities.User;
@@ -14,6 +15,8 @@ namespace TravelerShop.BusinessLogic.Interfaces
     {
         RResponseData UserLoginAction(ULoginData data);
         RResponseData UserRegisterAction(URegisterData data);
-        UCoockieData GenCoockieAlgo(User dataUser);
+        HttpCookie GenerateCoockie(string username);
+        User GetUserByCookie(string value);
+        User GetUserByUsername(string username);
     }
 }

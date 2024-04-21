@@ -166,6 +166,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
@@ -198,6 +199,7 @@
     <Content Include="Views\Product\AddNewProduct.cshtml" />
     <Content Include="Views\Shared\_AddEditLayout.cshtml" />
     <Content Include="Views\Product\Edit.cshtml" />
+    <Content Include="Views\Login\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -252,7 +254,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Login\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TravelerShop.BusinessLogic\TravelerShop.BusinessLogic.csproj">

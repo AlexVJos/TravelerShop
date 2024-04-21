@@ -11,6 +11,9 @@ using TravelerShop.Domain.Entities.Auth;
 using TravelerShop.Domain.Entities.User.DBModel;
 using TravelerShop.BusinessLogic.DBModel;
 using Microsoft.EntityFrameworkCore;
+using TravelerShop.Helpers;
+using System.Web;
+using TravelerShop.Domain.Entities.Auth.DBModel;
 
 namespace TravelerShop.BusinessLogic.Core
 {
@@ -18,14 +21,25 @@ namespace TravelerShop.BusinessLogic.Core
     {
         internal RResponseData LoginUpService(ULoginData data)
         {
+            User user;
+            var password = LoginHelper.HashPassword(data.Password);
             using (var db = new UserContext())
             {
-                var user = db.Users.FirstOrDefault(u => u.Username == data.Username && u.Password == data.Password);
-                if (user != null)
-                    return new RResponseData { Status = true, CurrentUser = user };
+                user = db.Users.FirstOrDefault(u => u.Username == data.Username && u.Password == password);                
             }
 
-            return new RResponseData { Status = false };
+            if (user == null)
+                return new RResponseData { Status = false, ResponseMessage = "The username or password is incorrect." };
+
+            using(var db = new UserContext())
+            {
+                user.LastIp = data.Ip;
+                user.LastLogin = data.LoginDate;
+                db.Entry(user).State = System.Data.Entity.EntityState.Modified;
+                db.SaveChanges();
+            }
+
+            return new RResponseData { Status = true };
         }
         internal RResponseData RegisterService(URegisterData data)
         {
@@ -57,21 +71,72 @@ namespace TravelerShop.BusinessLogic.Core
                 return new RResponseData
                 {
                     Status = false,
-                    ResponceMessage = "User " + user.Username + " already exists.",
+                    ResponseMessage = "User " + user.Username + " already exists.",
                     CurrentUser = user
                 };
             }
         }
-        internal UCoockieData UserCoockieGenerationAlg(User user)
+
+        public User GetUserByUsernameService(string username)
         {
-
-            //COOCKIE GENERATION
-
-            return new UCoockieData
+            User user;
+            using(var db =  new UserContext())
             {
-                MaxAge = 1709044385,
-                Coockie = "MY UNIQUE ID FOR THIS SESSION"
+                user = db.Users.FirstOrDefault(u => u.Username == username);
+            }
+
+            if(user == null)
+            {
+                throw new Exception(); // Потом оформить
+            }
+
+            return user;
+        }
+
+        internal HttpCookie CoockieGenerationService(string username)
+        {
+            //COOCKIE GENERATION
+            var apiCookie = new HttpCookie("X-KEY")
+            {
+                Value = CookieGenerator.Create(username)
             };
+
+            using(var db = new SessionContext())
+            {
+                Session current = db.Sessions.FirstOrDefault(s => s.Username == username);
+                if(current != null)
+                {
+                    current.CookieString = apiCookie.Value;
+                    current.ExpirationDate = DateTime.Now.AddMinutes(60);
+                    using(var todo = new SessionContext())
+                    {
+                        todo.Entry(current).State = System.Data.Entity.EntityState.Modified;
+                        todo.SaveChanges();
+                    }
+                }
+                else
+                {
+                    db.Sessions.Add(new Session
+                    {
+                        Username = username,
+                        CookieString = apiCookie.Value,
+                        ExpirationDate = DateTime.Now.AddMinutes(60)
+                    });
+                    db.SaveChanges();
+                }
+            }
+            return apiCookie;            
+        }
+        // Проработать все случаи неудач
+        public User GetUserByCookieService(string value)
+        {
+            User user;
+            using(var db = new SessionContext())
+            {
+                string username = (db.Sessions.FirstOrDefault(s => s.CookieString == value)).Username;
+                user = GetUserByUsernameService(username);
+            }
+            return user;
         }
 
 

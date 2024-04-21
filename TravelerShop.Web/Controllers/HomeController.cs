@@ -8,12 +8,16 @@ using TravelerShop.Web.Models;
 
 namespace TravelerShop.Web.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
-        // GET: Home
-        public ActionResult Index(LoginData login)
+        public ActionResult Index()
         {
-           return View();
+            SessionStatus();
+            if((string)System.Web.HttpContext.Current.Session["LoginStatus"] != "login")
+            {
+                return RedirectToAction("Index", "Login");
+            }
+            return View();
         }
 
         public ActionResult About()
@@ -37,11 +41,6 @@ namespace TravelerShop.Web.Controllers
         }
 
         public ActionResult News()
-        {
-            return View();
-        }
-
-        public ActionResult SingleProduct()
         {
             return View();
         }

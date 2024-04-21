@@ -206,6 +206,7 @@
     <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
     </Reference>
+    <Reference Include="System.Web" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -220,6 +221,7 @@
     <Compile Include="Core\AdminApi.cs" />
     <Compile Include="Core\UserApi.cs" />
     <Compile Include="DBModel\ProductContext.cs" />
+    <Compile Include="DBModel\SessionContext.cs" />
     <Compile Include="DBModel\UserContext.cs" />
     <Compile Include="Interfaces\IProduct.cs" />
     <Compile Include="Interfaces\ISession.cs" />
@@ -231,6 +233,10 @@
     <ProjectReference Include="..\TravelerShop.Domain\TravelerShop.Domain.csproj">
       <Project>{354bfd29-d8b7-41a2-aad5-dc24504a2679}</Project>
       <Name>TravelerShop.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TravelerShop.Helpers\TravelerShop.Helpers.csproj">
+      <Project>{7C0A89A7-BA4A-4FFC-AF2E-CC22DE133BCF}</Project>
+      <Name>TravelerShop.Helpers</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

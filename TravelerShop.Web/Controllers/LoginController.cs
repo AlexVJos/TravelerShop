@@ -39,21 +39,22 @@ namespace TravelerShop.Web.Controllers
                 Username = data.Username,
                 Password = data.Password,
                 Ip = "",
-                FirstLoginTime = DateTime.Now
+                LoginDate = DateTime.Now
             };
 
             RResponseData responce = _session.UserLoginAction(uLoginData);
             if (responce != null && responce.Status)
             {
-                //Coockie Generation
-                UCoockieData cData = _session.GenCoockieAlgo(responce.CurrentUser);
+                //Cookie Generation
+                HttpCookie cookie = _session.GenerateCoockie(responce.CurrentUser.Username);
 
-                if (cData != null)
+                if (cookie != null)
                 {
-                    //SET COOCKKE TO USER
+                    //SET COOKIE TO USER
+                    ControllerContext.HttpContext.Response.Cookies.Add(cookie);
                 }
             }
-            return View();
+            return RedirectToAction("Index", "Home");
         }
 
         [HttpPost]

@@ -27,7 +27,6 @@ namespace TravelerShop.Web.Controllers
         // GET: Product
         public ActionResult Index()
         {
-
             ProductDataModel products = _product.GetProductsToList();
             return View(products);
         }
@@ -92,22 +91,27 @@ namespace TravelerShop.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(ProductDataModel data)
         {
-            var product = new Product
+            if(ModelState.IsValid)
             {
-                ProductId = data.SingleProduct.ProductId,
-                Name = data.SingleProduct.Name,
-                Description = data.SingleProduct.Description,
-                Price = data.SingleProduct.Price,
-                Category = data.SingleProduct.Category,
-                Amount = data.SingleProduct.Amount,
-            };
-            using (var binaryReader = new BinaryReader(data.ImageFile.InputStream))
-            {
-                product.Image = binaryReader.ReadBytes(data.ImageFile.ContentLength);
-            }
+                var product = new Product
+                {
+                    ProductId = data.SingleProduct.ProductId,
+                    Name = data.SingleProduct.Name,
+                    Description = data.SingleProduct.Description,
+                    Price = data.SingleProduct.Price,
+                    Category = data.SingleProduct.Category,
+                    Amount = data.SingleProduct.Amount,
+                };
+                using (var binaryReader = new BinaryReader(data.ImageFile.InputStream))
+                {
+                    product.Image = binaryReader.ReadBytes(data.ImageFile.ContentLength);
+                }
 
-            ProdResponseData response = _product.EditProduct(product);
-            return RedirectToAction("Index", "Product");
+                ProdResponseData response = _product.EditProduct(product);
+                if(response.Status)
+                    return RedirectToAction("Index", "Product");
+            }
+            return RedirectToAction("Index", "Home");
         }
     }
 }
