@@ -10,27 +10,24 @@ namespace TravelerShop.Helpers
 {
     public static class CookieGenerator
     {
-        private const string SaltData = "8C6a11BcdC0AD4918c992cC8672Bc42CF21A666379325C937c87e891a693F185" +
-                                        "fF64E6979De62c1C3d424949ECcDD9B4D290Fe6f9e051F44DAa858297c4779a5" +
-                                        "3483d57d2b493D5a8D1B9CB0D031D8fe249829eCf9b5219a7F6d4107d7813be0" +
-                                        "3eaaEB0D70628F36EC4dD361c2E0868Aa1Bc44A8Ac8d4Ea54d46Dw1fu8due899";
+        private const string SaltData = "cd8orxDDq8cLj360J8UyqA==";
 
         private static readonly byte[] Salt = Encoding.ASCII.GetBytes(SaltData);
 
         public static string Create(string value)
         {
-            return EncryptStringAes(value, "8FeqwR53108c85ee4f41Fj8Ud9I12Qb4364177a6Ld3O01cb68fFhwu36IEFuajkIW3EU83873ddd4ad8bfdeead722ccfb886cFhe28fd9d08bb5182e316f417055e84f00");
+            return EncryptStringAes(value, "PJC7HnliwcxXw4FM8Ep3sX9NIL3R5CZnDvp8IyyCSlg=");
         }
         public static string Validate(string value)
         {
-            return DecryptStringAes(value, "8FeqwR53108c85ee4f41Fj8Ud9I12Qb4364177a6Ld3O01cb68fFhwu36IEFuajkIW3EU83873ddd4ad8bfdeead722ccfb886cFhe28fd9d08bb5182e316f417055e84f00");
+            return DecryptStringAes(value, "PJC7HnliwcxXw4FM8Ep3sX9NIL3R5CZnDvp8IyyCSlg=");
         }
         private static string EncryptStringAes(string plainText, string key)
         {
             using (Aes aesAlg = Aes.Create())
             {
-                aesAlg.Key = Encoding.UTF8.GetBytes(key);
-                aesAlg.IV = Salt;
+                aesAlg.Key = Convert.FromBase64String(key);
+                aesAlg.IV = Convert.FromBase64String(SaltData);
 
                 ICryptoTransform encryptor = aesAlg.CreateEncryptor(aesAlg.Key, aesAlg.IV);
 

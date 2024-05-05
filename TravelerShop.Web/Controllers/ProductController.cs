@@ -12,6 +12,7 @@ using TravelerShop.Domain.Entities.GeneralResponse;
 using TravelerShop.Domain.Entities.User;
 using System.IO;
 using System.Web.UI.WebControls;
+using TravelerShop.Web.Attributes;
 
 namespace TravelerShop.Web.Controllers
 {
@@ -45,6 +46,7 @@ namespace TravelerShop.Web.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [AdminMod]
         public ActionResult AddNewProduct(ProductData model)
         {
             if (ModelState.IsValid)
@@ -74,6 +76,7 @@ namespace TravelerShop.Web.Controllers
             }
             return View();
         }
+        [AdminMod]
         public ActionResult Delete(int id)
         {
             ProdResponseData response = _product.DeleteProduct(id);
@@ -81,6 +84,7 @@ namespace TravelerShop.Web.Controllers
                 return RedirectToAction("Index", "Home");
             return View();
         }
+        [AdminMod]
         public ActionResult Edit(int id)
         {
             ProductDataModel singleProduct = _product.GetSingleProduct(id);
@@ -89,6 +93,7 @@ namespace TravelerShop.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [AdminMod]
         public ActionResult Edit(ProductDataModel data)
         {
             if(ModelState.IsValid)

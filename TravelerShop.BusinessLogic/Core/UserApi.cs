@@ -14,6 +14,7 @@ using Microsoft.EntityFrameworkCore;
 using TravelerShop.Helpers;
 using System.Web;
 using TravelerShop.Domain.Entities.Auth.DBModel;
+using System.Data.Entity.Validation;
 
 namespace TravelerShop.BusinessLogic.Core
 {
@@ -49,7 +50,7 @@ namespace TravelerShop.BusinessLogic.Core
                 Name = data.Name,
                 Surname = data.Surname,
                 Email = data.Email,
-                Password = data.Password,
+                Password = LoginHelper.HashPassword(data.Password),
                 LastLogin = data.RegistrationDate,
                 LastIp = data.Ip,
                 Role = Domain.Enums.URole.User
@@ -61,7 +62,25 @@ namespace TravelerShop.BusinessLogic.Core
                 if (exists == null)
                 {
                     db.Users.Add(user);
-                    db.SaveChanges();
+                    
+                    try
+                    {
+                        db.SaveChanges();
+                    }
+                    catch (DbEntityValidationException ex)
+                    {
+                        foreach (var validationErrors in ex.EntityValidationErrors)
+                        {
+                            foreach (var validationError in validationErrors.ValidationErrors)
+                            {
+                                Console.WriteLine($"Property: {validationError.PropertyName}, Error: {validationError.ErrorMessage}");
+                            }
+                        }
+                    }
+
+
+
+
                     return new RResponseData
                     {
                         Status = true,
@@ -133,10 +152,23 @@ namespace TravelerShop.BusinessLogic.Core
             User user;
             using(var db = new SessionContext())
             {
-                string username = (db.Sessions.FirstOrDefault(s => s.CookieString == value)).Username;
-                user = GetUserByUsernameService(username);
+                Session session = db.Sessions.FirstOrDefault(s => s.CookieString == value);
+                if(session == null)
+                {
+                    return null;
+                }
+                if(session.ExpirationDate <= DateTime.Now)
+                {
+                    db.Sessions.Remove(session);
+                    db.SaveChanges();
+                }
+                else
+                {
+                    user = GetUserByUsernameService(session.Username);
+                    return user;
+                }
             }
-            return user;
+            return null;
         }
 
 
