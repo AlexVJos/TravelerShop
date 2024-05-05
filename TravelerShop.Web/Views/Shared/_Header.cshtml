@@ -1,15 +1,13 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "_Header";
 }
 @{
-    // Проверяем, является ли текущий пользователь администратором
-    bool isAdmin = User.IsInRole("Admin");
+/*var profile = (TravelerShop.Domain.Entities.User.DBModel.User)System.Web.HttpContext.Current.Session["__SessionObject"];
+bool isAdmin = profile.Role == TravelerShop.Domain.Enums.URole.Admin;*/
 }
 
-@if (!isAdmin)
+@if (false)
 {
-    // Отображаем кнопку "ADMIN" только для администраторов
     <a href="@Url.Action("AddNewProduct", "Product")" class="boxed-btn" style="position: absolute;">ADMIN</a>
 }
 <div class="container">

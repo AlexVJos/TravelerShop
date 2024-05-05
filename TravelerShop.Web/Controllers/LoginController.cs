@@ -33,7 +33,6 @@ namespace TravelerShop.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Index(LoginData data)
         {
-
             var uLoginData = new ULoginData
             {
                 Username = data.Username,
@@ -42,15 +41,13 @@ namespace TravelerShop.Web.Controllers
                 LoginDate = DateTime.Now
             };
 
-            RResponseData responce = _session.UserLoginAction(uLoginData);
-            if (responce != null && responce.Status)
+            RResponseData response = _session.UserLoginAction(uLoginData);
+            if (response != null && response.Status)
             {
-                //Cookie Generation
-                HttpCookie cookie = _session.GenerateCoockie(responce.CurrentUser.Username);
+                HttpCookie cookie = _session.GenerateCoockie(response.CurrentUser.Username);
 
                 if (cookie != null)
                 {
-                    //SET COOKIE TO USER
                     ControllerContext.HttpContext.Response.Cookies.Add(cookie);
                 }
             }
@@ -68,12 +65,23 @@ namespace TravelerShop.Web.Controllers
                 Surname = data.Surname,
                 Email = data.Email,
                 Password = data.Password,
-                Ip = "0.0.0.0",
+                Ip = System.Web.HttpContext.Current.Request.ServerVariables["HTTP_X_FORWARDED_FOR"],
                 RegistrationDate = DateTime.Now
             };
 
             RResponseData response = _session.UserRegisterAction(uRegisterData);
+            if (response != null && response.Status)
+            {
+                //Cookie Generation
+                HttpCookie cookie = _session.GenerateCoockie(response.CurrentUser.Username);
 
+                if (cookie != null)
+                {
+                    //SET COOKIE TO USER
+                    cookie.Expires = DateTime.Now.AddMinutes(60);
+                    ControllerContext.HttpContext.Response.Cookies.Add(cookie);
+                }
+            }
 
 
             return RedirectToAction("Index", "Home");
