@@ -116,6 +116,7 @@
     <Content Include="wwwroot\css\owl.carousel.css" />
     <Content Include="wwwroot\css\responsive.css" />
     <Content Include="wwwroot\css\scss\pages\_404.css" />
+    <Content Include="wwwroot\css\scss\Style.css" />
     <Content Include="wwwroot\img\1.jpg" />
     <Content Include="wwwroot\img\a.jpg" />
     <Content Include="wwwroot\img\abt.jpg" />
@@ -196,6 +197,7 @@
     <Content Include="Views\Shared\_Copyright.cshtml" />
     <Content Include="Views\Home\SingleProduct.cshtml" />
     <Content Include="Views\Product\AddNewProduct.cshtml" />
+    <Content Include="Views\Home\Login.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
