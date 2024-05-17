@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using TravelerShop.BusinessLogic.Core;
@@ -20,11 +21,21 @@ namespace TravelerShop.BusinessLogic.MainBL
 
         public ProductDataModel GetSingleProduct(int id)
         {
-            return ProductGetSingleAction(id);
+            return GetSingleProductAction(id);
         }
-        public ProdResponseData AddProdToDb(Product prod)
+
+        public ProdResponseData AddProductToDb(Product prod)
         {
-            return ProductAddToDb(prod);
+            return AddProductToDbAction(prod);
+        }
+
+        public ProdResponseData DeleteProduct(int id)
+        {
+            return DeleteProductAction(id);
+        }
+        public ProdResponseData EditProduct(Product product)
+        {
+            return EditProductAction(product);
         }
     }
 }

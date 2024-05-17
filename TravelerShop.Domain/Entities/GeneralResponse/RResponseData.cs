@@ -9,8 +9,7 @@ namespace TravelerShop.Domain.Entities.GeneralResponse
     public class RResponseData
     {
         public bool Status { get; set; }
-        public string ResponceMessage { get; set; }
-
+        public string ResponseMessage { get; set; }
         public User.DBModel.User CurrentUser { get; set; }
     }
 }

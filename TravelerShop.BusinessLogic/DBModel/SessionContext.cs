@@ -4,17 +4,16 @@ using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TravelerShop.Domain.Entities.User;
-using TravelerShop.Domain.Entities.User.DBModel;
+using TravelerShop.Domain.Entities.Auth.DBModel;
 
 namespace TravelerShop.BusinessLogic.DBModel
 {
-    public class UserContext: DbContext
+    public class SessionContext : DbContext
     {
-        public UserContext() :
+        public SessionContext() :
             base("name=TravelerShop")
         {
         }
-        public virtual DbSet<User> Users {  get; set; }
+        public virtual DbSet<Session> Sessions { get; set; }
     }
 }

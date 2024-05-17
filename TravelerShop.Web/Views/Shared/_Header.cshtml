@@ -1,9 +1,15 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "_Header";
 }
+@{
+/*var profile = (TravelerShop.Domain.Entities.User.DBModel.User)System.Web.HttpContext.Current.Session["__SessionObject"];
+bool isAdmin = profile.Role == TravelerShop.Domain.Enums.URole.Admin;*/
+}
 
-<a href="@Url.Action("AddNewProduct", "Product")" class="boxed-btn" style="position: absolute;">ADMIN</a>
+@if (false)
+{
+    <a href="@Url.Action("AddNewProduct", "Product")" class="boxed-btn" style="position: absolute;">ADMIN</a>
+}
 <div class="container">
     <div class="row">
         <div class="col-lg-12 col-sm-12 text-center">
@@ -35,9 +41,10 @@
                                 <li><a href="@Url.Action("Checkout", "Home")">Check Out</a></li>
                                 <li><a href="@Url.Action("Contact", "Home")">Контакты</a></li>
                                 <li><a href="@Url.Action("News", "Home")">Новости</a></li>
-                                <li><a href="@Url.Action("Shop", "Home")">Каталог</a></li>
-                                <li><a href="@Url.Action("Login", "Home")">Войти</a></li>
 
+                                <li><a href="@Url.Action("Shop", "Home")">Каталог</a></li>
+                                @*<li><a href="@Url.Action("Login", "Home")">Войти</a></li>*@
+                                <li><a href="@Url.Action("Index", "Product")">Каталог</a></li>
 
                             </ul>
                         </li>

@@ -9,6 +9,8 @@ using TravelerShop.Domain.Entities.Auth;
 using TravelerShop.Domain.Entities.GeneralResponse;
 using TravelerShop.Domain.Entities.User;
 using TravelerShop.Web.Models;
+using TravelerShop.Web.Models.User;
+using TravelerShop.Domain.Entities.User.DBModel;
 
 namespace TravelerShop.Web.Controllers
 {
@@ -31,29 +33,58 @@ namespace TravelerShop.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Index(LoginData data)
         {
-
             var uLoginData = new ULoginData
             {
-                Credential = data.Username,
+                Username = data.Username,
                 Password = data.Password,
                 Ip = "",
-                FirstLoginTime = DateTime.Now
+                LoginDate = DateTime.Now
             };
 
-            RResponseData responce = _session.UserLoginAction(uLoginData);
-            if (responce != null && responce.Status)
+            RResponseData response = _session.UserLoginAction(uLoginData);
+            if (response != null && response.Status)
             {
-                //Coockie Generation
-                UCoockieData cData = _session.GenCoockieAlgo(responce.CurrentUser);
+                HttpCookie cookie = _session.GenerateCoockie(response.CurrentUser.Username);
 
-                if (cData != null)
+                if (cookie != null)
                 {
-                    //SET COOCKKE TO USER
+                    ControllerContext.HttpContext.Response.Cookies.Add(cookie);
+                }
+            }
+            return RedirectToAction("Index", "Home");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Register(RegisterData data)
+        {
+            var uRegisterData = new URegisterData
+            {
+                Username = data.Username,
+                Name = data.Name,
+                Surname = data.Surname,
+                Email = data.Email,
+                Password = data.Password,
+                Ip = System.Web.HttpContext.Current.Request.ServerVariables["HTTP_X_FORWARDED_FOR"],
+                RegistrationDate = DateTime.Now
+            };
+
+            RResponseData response = _session.UserRegisterAction(uRegisterData);
+            if (response != null && response.Status)
+            {
+                //Cookie Generation
+                HttpCookie cookie = _session.GenerateCoockie(response.CurrentUser.Username);
+
+                if (cookie != null)
+                {
+                    //SET COOKIE TO USER
+                    cookie.Expires = DateTime.Now.AddMinutes(60);
+                    ControllerContext.HttpContext.Response.Cookies.Add(cookie);
                 }
             }
 
 
-            return View();
+            return RedirectToAction("Index", "Home");
         }
     }
 }
