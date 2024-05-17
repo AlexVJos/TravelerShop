@@ -24,14 +24,14 @@ namespace TravelerShop.Web.Controllers
         }
 
         // GET: Login
-        public ActionResult Index()
+        public ActionResult SignIn()
         {
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Index(LoginData data)
+        public ActionResult SignIn(LoginData data)
         {
             var uLoginData = new ULoginData
             {

@@ -201,6 +201,7 @@
     <Content Include="Views\Shared\_AddEditLayout.cshtml" />
     <Content Include="Views\Product\Edit.cshtml" />
     <Content Include="Views\Login\Index.cshtml" />
+    <Content Include="Views\Login\SignIn.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
