@@ -2,11 +2,11 @@
     ViewBag.Title = "_Header";
 }
 @{
-/*var profile = (TravelerShop.Domain.Entities.User.DBModel.User)System.Web.HttpContext.Current.Session["__SessionObject"];
-bool isAdmin = profile.Role == TravelerShop.Domain.Enums.URole.Admin;*/
+    var profile = (TravelerShop.Domain.Entities.User.DBModel.User)System.Web.HttpContext.Current.Session["__SessionObject"];
+    bool isAdmin = profile.Role == TravelerShop.Domain.Enums.URole.Admin;
 }
 
-@if (false)
+@if (isAdmin)
 {
     <a href="@Url.Action("AddNewProduct", "Product")" class="boxed-btn" style="position: absolute;">ADMIN</a>
 }
@@ -26,10 +26,6 @@ bool isAdmin = profile.Role == TravelerShop.Domain.Enums.URole.Admin;*/
                     <ul>
                         <li class="current-list-item">
                             <a href="@Url.Action("Index", "Home")">Домашняя страница</a>
-                            <ul class="sub-menu">
-                                <li><a href="index.html">Static Home</a></li>
-                                <li><a href="index_2.html">Slider Home</a></li>
-                            </ul>
                         </li>
                         <li><a href="@Url.Action("About", "Home")">О нас</a></li>
                         <li>
@@ -41,11 +37,7 @@ bool isAdmin = profile.Role == TravelerShop.Domain.Enums.URole.Admin;*/
                                 <li><a href="@Url.Action("Checkout", "Home")">Check Out</a></li>
                                 <li><a href="@Url.Action("Contact", "Home")">Контакты</a></li>
                                 <li><a href="@Url.Action("News", "Home")">Новости</a></li>
-
-                                <li><a href="@Url.Action("Shop", "Home")">Каталог</a></li>
-                                @*<li><a href="@Url.Action("Login", "Home")">Войти</a></li>*@
                                 <li><a href="@Url.Action("Index", "Product")">Каталог</a></li>
-
                             </ul>
                         </li>
                         <li>
@@ -69,7 +61,7 @@ bool isAdmin = profile.Role == TravelerShop.Domain.Enums.URole.Admin;*/
                             <div class="header-icons">
                                 <a class="shopping-cart" href="cart.html"><i class="fas fa-shopping-cart"></i></a>
                                 <a class="mobile-hide search-bar-icon" href="#"><i class="fas fa-search"></i></a>
-                                <a class="mobile-hide search-bar-icon" href="#"><i class="fa-solid fa-user-ninja"></i></a>
+                                <a class="mobile-hide search-bar-icon" href="@Url.Action("SignIn", "Login")"><i class="fa-solid fa-user-ninja"></i></a>
                             </div>
                         </li>
                     </ul>

@@ -12,11 +12,11 @@ namespace TravelerShop.Web.Controllers
     {
         public ActionResult Index()
         {
-            /*SessionStatus();
+            SessionStatus();
             if ((string)System.Web.HttpContext.Current.Session["LoginStatus"] != "login")
             {
-                return RedirectToAction("Index", "Login");
-            }*/
+                return RedirectToAction("SignIn", "Login");
+            }
             return View();
         }
 

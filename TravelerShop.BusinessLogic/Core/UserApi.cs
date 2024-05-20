@@ -40,7 +40,7 @@ namespace TravelerShop.BusinessLogic.Core
                 db.SaveChanges();
             }
 
-            return new RResponseData { Status = true };
+            return new RResponseData { Status = true, CurrentUser = user };
         }
         internal RResponseData RegisterService(URegisterData data)
         {

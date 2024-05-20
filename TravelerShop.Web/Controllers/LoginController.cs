@@ -24,9 +24,28 @@ namespace TravelerShop.Web.Controllers
         }
 
         // GET: Login
+        public ActionResult Index()
+        {
+            return View();
+        }
         public ActionResult SignIn()
         {
             return View();
+        }
+        public ActionResult LogOut()
+        {
+            System.Web.HttpContext.Current.Session.Clear();
+            if (ControllerContext.HttpContext.Request.Cookies.AllKeys.Contains("X-KEY"))
+            {
+                var cookie = ControllerContext.HttpContext.Request.Cookies["X-KEY"];
+                if (cookie != null)
+                {
+                    cookie.Expires = DateTime.Now.AddDays(-1);
+                    ControllerContext.HttpContext.Response.Cookies.Add(cookie);
+                }
+            }
+            System.Web.HttpContext.Current.Session["LoginStatus"] = "logout";
+            return RedirectToAction("SignIn","Login");
         }
 
         [HttpPost]
@@ -50,8 +69,9 @@ namespace TravelerShop.Web.Controllers
                 {
                     ControllerContext.HttpContext.Response.Cookies.Add(cookie);
                 }
+                return RedirectToAction("Index", "Home");
             }
-            return RedirectToAction("Index", "Home");
+            return View(data);
         }
 
         [HttpPost]
