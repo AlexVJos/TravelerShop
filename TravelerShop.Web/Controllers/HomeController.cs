@@ -27,7 +27,12 @@ namespace TravelerShop.Web.Controllers
 
         public ActionResult Cart()
         {
-            return View();
+            SessionStatus();
+            if ((string)System.Web.HttpContext.Current.Session["LoginStatus"] != "login")
+            {
+                return RedirectToAction("SignIn", "Login");
+            }
+            return RedirectToAction("Index", "Cart");
         }
 
         public ActionResult Checkout()

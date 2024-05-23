@@ -18,5 +18,9 @@ namespace TravelerShop.BusinessLogic
         {
             return new ProductBL();
         }
+        public ICart GetCartBL()
+        {
+            return new CartBL();
+        }
     }
 }

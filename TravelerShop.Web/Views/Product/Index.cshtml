@@ -50,7 +50,7 @@
                             <a href="@Url.Action("Edit", "Product", new { id = product.ProductId })" class="btn btn-primary">Edit</a>
                             <a href="javascript:void(0)" class="btn btn-danger" onclick="showDeleteModal('@product.Name', '@Url.Action("Delete", "Product", new { id = product.ProductId })')">Delete</a>
                         }
-                        <a href="cart.html" class="cart-btn"><i class="fas fa-shopping-cart"></i> Add to Cart</a>
+                        <a href="@Url.Action("AddToCart", "Cart", new { productId = product.ProductId, quantity = 1 })" class="cart-btn"><i class="fas fa-shopping-cart"></i> Add to Cart</a>
                     </div>
                 </div>
             }

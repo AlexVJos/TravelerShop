@@ -15,12 +15,12 @@ namespace TravelerShop.Domain.Entities.Cart.DBModel
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; } 
-        public int Quantity { get; set; }
-        [DataType(DataType.Date)]
-        public System.DateTime DateCreated { get; set; }
         public int ProductId { get; set; }
-        public virtual Product.DBModel.Product Product { get; set; }
-        public int UserId { get; set; }
-        public virtual User.DBModel.User User { get; set; }
+        public int CartId { get; set; }
+        public byte[] Image { get; set; }
+        public string Name { get; set; }
+        public decimal Price { get; set; }
+        public int Quantity { get; set; }
+        public decimal SubTotal { get; set; }
     }
 }

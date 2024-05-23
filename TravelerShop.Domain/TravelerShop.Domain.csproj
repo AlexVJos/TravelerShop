@@ -53,6 +53,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Entities\Auth\DBModel\Session.cs" />
+    <Compile Include="Entities\Cart\DBModel\Cart.cs" />
     <Compile Include="Entities\Cart\DBModel\CartItem.cs" />
     <Compile Include="Entities\GeneralResponse\ProdResponseData.cs" />
     <Compile Include="Entities\GeneralResponse\RResponseData.cs" />
