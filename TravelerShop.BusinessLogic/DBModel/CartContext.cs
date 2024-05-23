@@ -17,5 +17,14 @@ namespace TravelerShop.BusinessLogic.DBModel
 
         public virtual DbSet<Cart> Carts { get; set; }
         public virtual DbSet<CartItem> CartItems { get; set; }
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Cart>()
+                        .HasMany(c => c.Items)
+                        .WithRequired()
+                        .HasForeignKey(i => i.UserId);
+
+            base.OnModelCreating(modelBuilder);
+        }
     }
 }

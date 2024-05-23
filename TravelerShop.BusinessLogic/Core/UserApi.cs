@@ -16,6 +16,7 @@ using System.Web;
 using TravelerShop.Domain.Entities.Auth.DBModel;
 using System.Data.Entity.Validation;
 using TravelerShop.Domain.Entities.Cart.DBModel;
+using System.Runtime.Remoting.Contexts;
 
 namespace TravelerShop.BusinessLogic.Core
 {
@@ -63,24 +64,7 @@ namespace TravelerShop.BusinessLogic.Core
                 if (exists == null)
                 {
                     db.Users.Add(user);
-                    
-                    try
-                    {
-                        db.SaveChanges();
-                    }
-                    catch (DbEntityValidationException ex)
-                    {
-                        foreach (var validationErrors in ex.EntityValidationErrors)
-                        {
-                            foreach (var validationError in validationErrors.ValidationErrors)
-                            {
-                                Console.WriteLine($"Property: {validationError.PropertyName}, Error: {validationError.ErrorMessage}");
-                            }
-                        }
-                    }
-
-
-
+                    db.SaveChanges();
 
                     return new RResponseData
                     {
@@ -297,9 +281,12 @@ namespace TravelerShop.BusinessLogic.Core
             {
                 // Загружаем корзину с элементами
                 var cart = db.Carts
-                             .Include(c => c.Items)
-                             .FirstOrDefault(c => c.UserId == userId);
 
+                             .FirstOrDefault(c => c.UserId == userId);
+                if (cart != null)
+                {
+                    db.Entry(cart).Collection(c => c.Items).Load();
+                }
                 return cart;
             }
         }
@@ -310,22 +297,33 @@ namespace TravelerShop.BusinessLogic.Core
         {
             using (var db = new CartContext())
             {
-                db.CartItems.Add(cartItem);
-                db.SaveChanges();
-
                 // Обновляем корзину и элементы
-                var cart = db.Carts
-                             .Include(c => c.Items)
-                             .FirstOrDefault(c => c.Id == cartItem.CartId);
+                var cart = GetByUserIdService(cartItem.UserId);
 
                 if (cart != null)
                 {
-                    cart.DateModified = DateTime.Now;
+                    db.Carts.Attach(cart);
+                    var newCart = cart;
+                    newCart.Items.Add(cartItem);
+                    newCart.DateModified = DateTime.Now;
+                    newCart.Total += cartItem.SubTotal;
+                    db.Entry(cart).CurrentValues.SetValues(newCart);
                     db.SaveChanges();
                     return new ProdResponseData { Status = true, ResponseMessage = "Item was added successfully." };
                 }
-
-                return new ProdResponseData { Status = false, ResponseMessage = "Failed to add." };
+                else
+                {
+                    cart = new Cart
+                    {
+                        UserId = cartItem.UserId,
+                        DateModified = DateTime.Now,
+                        Items = new List<CartItem>() { cartItem },
+                        Total = cartItem.SubTotal
+                    };
+                    db.Carts.Add(cart);
+                    db.SaveChanges();
+                    return new ProdResponseData { Status = true, ResponseMessage = "Item was added successfully." };
+                }
             }
         }
 

@@ -37,11 +37,10 @@ namespace TravelerShop.Web.Controllers
             var prod = _product.GetSingleProduct(productId).SingleProduct;
             var currentUser = (User)HttpContext?.Session["__SessionObject"];
             if(currentUser == null) { throw new Exception(); }
-            var cart = _cart.FindOrCreateByUserId(currentUser.Id);
             var cartItem = new CartItem
             {
                 ProductId = prod.ProductId,
-                CartId = cart.Id,
+                UserId = currentUser.Id,
                 Image = prod.Image,
                 Name = prod.Name,
                 Price = prod.Price,
