@@ -267,9 +267,12 @@ namespace TravelerShop.BusinessLogic.Core
         //------------------------------CART-------------------------------//
         internal Cart FindOrCreateCartService(int userId)
         {
-            using(var db = new CartContext())
+            using (var db = new CartContext())
             {
-                var cart = db.Carts.FirstOrDefault(p => p.UserId == userId);
+                var cart = db.Carts
+                             .Include(c => c.Items)
+                             .FirstOrDefault(c => c.UserId == userId);
+
                 if (cart != null)
                 {
                     return cart;
@@ -279,8 +282,7 @@ namespace TravelerShop.BusinessLogic.Core
                     var newCart = new Cart
                     {
                         UserId = userId,
-                        DateModified = DateTime.Now,
-                        Items = new List<CartItem>()
+                        DateModified = DateTime.Now
                     };
                     db.Carts.Add(newCart);
                     db.SaveChanges();
@@ -288,6 +290,7 @@ namespace TravelerShop.BusinessLogic.Core
                 }
             }
         }
+
         internal Cart GetByUserIdService(int userId)
         {
             using (var db = new CartContext())
@@ -297,53 +300,35 @@ namespace TravelerShop.BusinessLogic.Core
                              .Include(c => c.Items)
                              .FirstOrDefault(c => c.UserId == userId);
 
-                if (cart != null && cart.Items != null)
-                {
-                    using(var pdb = new ProductContext())
-                    {
-                        foreach (var item in cart.Items)
-                        {
-                            var product = pdb.Products.FirstOrDefault(p => p.ProductId == item.ProductId);
-                            if (product != null)
-                            {
-                                // Здесь вы можете обновить поля элемента корзины, если это необходимо
-                                item.Name = product.Name;
-                                item.Price = product.Price;
-                                item.Image = product.Image;
-                                item.SubTotal = item.Quantity * product.Price;
-                            }
-                        }
-
-                    }
-                }
-
                 return cart;
             }
         }
+
 
 
         internal ProdResponseData AddToCartService(CartItem cartItem)
         {
             using (var db = new CartContext())
             {
-                // Добавляем элемент корзины и сохраняем изменения
                 db.CartItems.Add(cartItem);
                 db.SaveChanges();
 
-                // Обновляем дату изменения корзины
-                var cart = db.Carts.FirstOrDefault(c => c.Id == cartItem.CartId);
+                // Обновляем корзину и элементы
+                var cart = db.Carts
+                             .Include(c => c.Items)
+                             .FirstOrDefault(c => c.Id == cartItem.CartId);
+
                 if (cart != null)
                 {
                     cart.DateModified = DateTime.Now;
                     db.SaveChanges();
-                    var cartByUserId = db.Carts
-                             .Include(c => c.Items)
-                             .FirstOrDefault(c => c.UserId == 8);
                     return new ProdResponseData { Status = true, ResponseMessage = "Item was added successfully." };
                 }
+
                 return new ProdResponseData { Status = false, ResponseMessage = "Failed to add." };
             }
         }
+
 
 
 

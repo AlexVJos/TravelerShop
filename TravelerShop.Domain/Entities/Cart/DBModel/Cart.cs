@@ -13,7 +13,7 @@ namespace TravelerShop.Domain.Entities.Cart.DBModel
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public int UserId { get; set; }
-        public virtual List<CartItem> Items { get; set; } = new List<CartItem>();
+        public List<CartItem> Items { get; set; } = new List<CartItem>();
         [DataType(DataType.Date)]
         public System.DateTime DateModified { get; set; }
         public decimal Total { get; set; }
