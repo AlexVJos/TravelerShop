@@ -279,10 +279,7 @@ namespace TravelerShop.BusinessLogic.Core
         {
             using (var db = new CartContext())
             {
-                // Загружаем корзину с элементами
-                var cart = db.Carts
-
-                             .FirstOrDefault(c => c.UserId == userId);
+                var cart = db.Carts.FirstOrDefault(c => c.UserId == userId);
                 if (cart != null)
                 {
                     db.Entry(cart).Collection(c => c.Items).Load();
@@ -298,24 +295,33 @@ namespace TravelerShop.BusinessLogic.Core
             using (var db = new CartContext())
             {
                 // Обновляем корзину и элементы
-                var cart = GetByUserIdService(cartItem.UserId);
+                var cart = GetByUserIdService(cartItem.CartId);
 
                 if (cart != null)
                 {
                     db.Carts.Attach(cart);
-                    var newCart = cart;
-                    newCart.Items.Add(cartItem);
-                    newCart.DateModified = DateTime.Now;
-                    newCart.Total += cartItem.SubTotal;
-                    db.Entry(cart).CurrentValues.SetValues(newCart);
-                    db.SaveChanges();
+                    var item = db.CartItems.FirstOrDefault(c => c.CartId == cart.Id && c.ProductId == cartItem.ProductId);
+                    if (item != null)
+                    {
+                        item.Quantity += cartItem.Quantity;
+                        item.SubTotal += cartItem.SubTotal;
+                        cart.Total += cartItem.SubTotal;
+                        db.SaveChanges();
+                    }
+                    else
+                    {
+                        cart.Items.Add(cartItem);
+                        cart.DateModified = DateTime.Now;
+                        cart.Total += cartItem.SubTotal;
+                        db.SaveChanges();
+                    }
                     return new ProdResponseData { Status = true, ResponseMessage = "Item was added successfully." };
                 }
                 else
                 {
                     cart = new Cart
                     {
-                        UserId = cartItem.UserId,
+                        UserId = cartItem.CartId,
                         DateModified = DateTime.Now,
                         Items = new List<CartItem>() { cartItem },
                         Total = cartItem.SubTotal
@@ -327,8 +333,46 @@ namespace TravelerShop.BusinessLogic.Core
             }
         }
 
+        internal ProdResponseData DeleteItemService(int itemId)
+        {
+            using (var db = new CartContext())
+            {
+                var item = db.CartItems.FirstOrDefault(p => p.Id == itemId);
+                var cart = db.Carts.FirstOrDefault(c => c.Id == item.CartId);
+                cart.Total -= item.SubTotal;
+                db.CartItems.Remove(item);
+                db.SaveChanges();
+                return new ProdResponseData
+                {
+                    Status = true,
+                    ResponseMessage = "Product " + item.Name + " was removed successfully."
+                };
+            }
+        }
 
+        internal ProdResponseData UpdateItemService(int itemId, int itemQuantity)
+        {
+            using(var db = new CartContext())
+            {
+                var item = db.CartItems.FirstOrDefault(i => i.Id == itemId);
+                if(item != null)
+                {
+                    if (item.Quantity == itemQuantity)
+                        return new ProdResponseData { Status = true, ResponseMessage = "No need to update." };
 
-
+                    var cart = db.Carts.FirstOrDefault(c => c.Id == item.CartId);
+                    decimal subtotalDifference = (itemQuantity - item.Quantity) * item.Price;
+                    item.Quantity = itemQuantity;
+                    item.SubTotal += subtotalDifference;
+                    cart.Total += subtotalDifference;
+                    db.SaveChanges();
+                    return new ProdResponseData() { Status = true };
+                }
+                else
+                {
+                    return new ProdResponseData() { Status = false, ResponseMessage = "Item not found." };
+                }
+            }
+        }
     }
 }

@@ -233,6 +233,10 @@
     <Compile Include="Migrations\202405231929113_InitialCreate.designer.cs">
       <DependentUpon>202405231929113_InitialCreate.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202405241634107_RenameUserId.cs" />
+    <Compile Include="Migrations\202405241634107_RenameUserId.designer.cs">
+      <DependentUpon>202405241634107_RenameUserId.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="MainBL\SessionBL.cs" />
@@ -257,6 +261,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202405231929113_InitialCreate.resx">
       <DependentUpon>202405231929113_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202405241634107_RenameUserId.resx">
+      <DependentUpon>202405241634107_RenameUserId.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

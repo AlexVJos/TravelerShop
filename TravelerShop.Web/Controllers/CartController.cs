@@ -36,21 +36,48 @@ namespace TravelerShop.Web.Controllers
         {
             var prod = _product.GetSingleProduct(productId).SingleProduct;
             var currentUser = (User)HttpContext?.Session["__SessionObject"];
-            if(currentUser == null) { throw new Exception(); }
+            if (currentUser == null) { throw new Exception(); }
             var cartItem = new CartItem
             {
                 ProductId = prod.ProductId,
-                UserId = currentUser.Id,
+                CartId = currentUser.Id,
                 Image = prod.Image,
                 Name = prod.Name,
                 Price = prod.Price,
                 Quantity = quantity,
                 SubTotal = quantity * prod.Price
             };
-            
+
             ProdResponseData prodResponseData = _cart.AddToCart(cartItem);
-            
-            return RedirectToAction("Index");
+            if(prodResponseData != null)
+            {
+                return RedirectToAction("Index");
+
+            }
+            return RedirectToAction("Index", "Product");
+        }
+        public ActionResult Delete(int id)
+        {
+            ProdResponseData response = _cart.DeleteItem(id);
+            if (response != null)
+            {
+                return RedirectToAction("Index");
+            }
+            return RedirectToAction("Index", "Product");
+        }
+        
+        [HttpPost]
+        public ActionResult Update(Cart cart)
+        {
+            if (ModelState.IsValid)
+            {
+                foreach (var item in cart.Items)
+                {
+                    ProdResponseData response = _cart.UpdateItem(item.Id, item.Quantity);
+                }
+                return RedirectToAction("Index", "Cart");
+            }
+            return RedirectToAction("Index", "Home");
         }
     }
 }

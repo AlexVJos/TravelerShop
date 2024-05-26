@@ -22,7 +22,7 @@ namespace TravelerShop.BusinessLogic.DBModel
             modelBuilder.Entity<Cart>()
                         .HasMany(c => c.Items)
                         .WithRequired()
-                        .HasForeignKey(i => i.UserId);
+                        .HasForeignKey(i => i.CartId);
 
             base.OnModelCreating(modelBuilder);
         }

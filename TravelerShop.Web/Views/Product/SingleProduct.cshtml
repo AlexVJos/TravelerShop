@@ -32,10 +32,10 @@
                         <p class="single-product-pricing">$@Model.SingleProduct.Price</p>
                         <p>@Model.SingleProduct.Description</p>
                         <div class="single-product-form">
-                            <form action="index.html">
-                                <input type="number" placeholder="0">
-                            </form>
-                            <a href="cart.html" class="cart-btn"><i class="fas fa-shopping-cart"></i> Add to Cart</a>
+                            <div>
+                                <input id="quantityInput" type="number" min = "1" placeholder="1">
+                            </div>
+                            <a id="addToCartLink" href="@Url.Action("AddToCart", "Cart", new {productId = Model.SingleProduct.ProductId, })" class="cart-btn"><i class="fas fa-shopping-cart"></i> Add to Cart</a>
                             <p><strong>Category: </strong>@Model.SingleProduct.Category</p>
                         </div>
                         <h4>Share:</h4>
@@ -124,3 +124,17 @@
         </div>
     </div>
     <!-- end logo carousel -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var quantityInput = document.getElementById("quantityInput");
+            var addToCartLink = document.getElementById("addToCartLink");
+
+            quantityInput.addEventListener("input", function() {
+                var quantity = quantityInput.value;
+                var productId = '@Model.SingleProduct.ProductId';
+                var baseUrl = '@Url.Action("AddToCart", "Cart")';
+                var newUrl = `${baseUrl}?productId=${productId}&quantity=${quantity}`;
+                addToCartLink.href = newUrl;
+            });
+        });
+    </script>

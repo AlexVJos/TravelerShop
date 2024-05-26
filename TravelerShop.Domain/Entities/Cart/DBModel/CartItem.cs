@@ -16,7 +16,7 @@ namespace TravelerShop.Domain.Entities.Cart.DBModel
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; } 
         public int ProductId { get; set; }
-        public int UserId { get; set; }
+        public int CartId { get; set; }
         public byte[] Image { get; set; }
         public string Name { get; set; }
         public decimal Price { get; set; }

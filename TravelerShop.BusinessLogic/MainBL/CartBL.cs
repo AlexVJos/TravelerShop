@@ -24,5 +24,13 @@ namespace TravelerShop.BusinessLogic.MainBL
         {
             return GetByUserIdService(userId);
         }
+        public ProdResponseData DeleteItem(int itemId)
+        {
+            return DeleteItemService(itemId);
+        }
+        public ProdResponseData UpdateItem(int itemId, int itemQuantity)
+        {
+            return UpdateItemService(itemId, itemQuantity);
+        }
     }
 }
