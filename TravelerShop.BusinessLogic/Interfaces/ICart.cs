@@ -15,5 +15,6 @@ namespace TravelerShop.BusinessLogic.Interfaces
         Cart GetByUserId(int userId);
         ProdResponseData DeleteItem(int itemId);
         ProdResponseData UpdateItem(int itemId, int itemQuantity);
+        void ClearCart(int cartId);
     }
 }

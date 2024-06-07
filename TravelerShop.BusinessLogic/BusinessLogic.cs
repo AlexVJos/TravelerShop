@@ -22,5 +22,9 @@ namespace TravelerShop.BusinessLogic
         {
             return new CartBL();
         }
+        public IOrder GetOrderBL()
+        {
+            return new OrderBL();
+        }
     }
 }

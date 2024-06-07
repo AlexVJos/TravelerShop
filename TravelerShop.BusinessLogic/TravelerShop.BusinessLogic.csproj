@@ -221,13 +221,16 @@
     <Compile Include="Core\AdminApi.cs" />
     <Compile Include="Core\UserApi.cs" />
     <Compile Include="DBModel\CartContext.cs" />
+    <Compile Include="DBModel\OrderContext.cs" />
     <Compile Include="DBModel\ProductContext.cs" />
     <Compile Include="DBModel\SessionContext.cs" />
     <Compile Include="DBModel\UserContext.cs" />
     <Compile Include="Interfaces\ICart.cs" />
+    <Compile Include="Interfaces\IOrder.cs" />
     <Compile Include="Interfaces\IProduct.cs" />
     <Compile Include="Interfaces\ISession.cs" />
     <Compile Include="MainBL\CartBL.cs" />
+    <Compile Include="MainBL\OrderBL.cs" />
     <Compile Include="MainBL\ProductBL.cs" />
     <Compile Include="Migrations\202405231929113_InitialCreate.cs" />
     <Compile Include="Migrations\202405231929113_InitialCreate.designer.cs">

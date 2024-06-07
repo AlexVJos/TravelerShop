@@ -57,11 +57,14 @@
     <Compile Include="Entities\Cart\DBModel\CartItem.cs" />
     <Compile Include="Entities\GeneralResponse\ProdResponseData.cs" />
     <Compile Include="Entities\GeneralResponse\RResponseData.cs" />
+    <Compile Include="Entities\Order\DBModel\Order.cs" />
+    <Compile Include="Entities\Order\DBModel\OrderItem.cs" />
     <Compile Include="Entities\Product\DBModel\Product.cs" />
     <Compile Include="Entities\Product\ProductDataModel.cs" />
     <Compile Include="Entities\User\DBModel\User.cs" />
     <Compile Include="Entities\User\ULoginData.cs" />
     <Compile Include="Entities\User\URegisterData.cs" />
+    <Compile Include="Enums\OrderStatus.cs" />
     <Compile Include="Enums\PCategory.cs" />
     <Compile Include="Enums\URole.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
