@@ -32,5 +32,9 @@ namespace TravelerShop.BusinessLogic.MainBL
         {
             return UpdateItemService(itemId, itemQuantity);
         }
+        public void ClearCart(int cartId)
+        {
+            ClearCartAction(cartId);
+        }
     }
-}
+}   

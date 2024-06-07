@@ -56,7 +56,7 @@ namespace TravelerShop.Web.Controllers
             {
                 Username = data.Username,
                 Password = data.Password,
-                Ip = "",
+                Ip = Request.UserHostAddress,
                 LoginDate = DateTime.Now
             };
 

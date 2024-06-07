@@ -17,6 +17,7 @@ using TravelerShop.Domain.Entities.Auth.DBModel;
 using System.Data.Entity.Validation;
 using TravelerShop.Domain.Entities.Cart.DBModel;
 using System.Runtime.Remoting.Contexts;
+using TravelerShop.Domain.Entities.Order.DBModel;
 
 namespace TravelerShop.BusinessLogic.Core
 {
@@ -28,13 +29,13 @@ namespace TravelerShop.BusinessLogic.Core
             var password = LoginHelper.HashPassword(data.Password);
             using (var db = new UserContext())
             {
-                user = db.Users.FirstOrDefault(u => u.Username == data.Username && u.Password == password);                
+                user = db.Users.FirstOrDefault(u => u.Username == data.Username && u.Password == password);
             }
 
             if (user == null)
                 return new RResponseData { Status = false, ResponseMessage = "The username or password is incorrect." };
 
-            using(var db = new UserContext())
+            using (var db = new UserContext())
             {
                 user.LastIp = data.Ip;
                 user.LastLogin = data.LoginDate;
@@ -84,12 +85,12 @@ namespace TravelerShop.BusinessLogic.Core
         public User GetUserByUsernameService(string username)
         {
             User user;
-            using(var db =  new UserContext())
+            using (var db = new UserContext())
             {
                 user = db.Users.FirstOrDefault(u => u.Username == username);
             }
 
-            if(user == null)
+            if (user == null)
             {
                 throw new Exception(); // Потом оформить
             }
@@ -105,14 +106,14 @@ namespace TravelerShop.BusinessLogic.Core
                 Value = CookieGenerator.Create(username)
             };
 
-            using(var db = new SessionContext())
+            using (var db = new SessionContext())
             {
                 Session current = db.Sessions.FirstOrDefault(s => s.Username == username);
-                if(current != null)
+                if (current != null)
                 {
                     current.CookieString = apiCookie.Value;
                     current.ExpirationDate = DateTime.Now.AddMinutes(60);
-                    using(var todo = new SessionContext())
+                    using (var todo = new SessionContext())
                     {
                         todo.Entry(current).State = System.Data.Entity.EntityState.Modified;
                         todo.SaveChanges();
@@ -129,20 +130,20 @@ namespace TravelerShop.BusinessLogic.Core
                     db.SaveChanges();
                 }
             }
-            return apiCookie;            
+            return apiCookie;
         }
         // Проработать все случаи неудач
         public User GetUserByCookieService(string value)
         {
             User user;
-            using(var db = new SessionContext())
+            using (var db = new SessionContext())
             {
                 Session session = db.Sessions.FirstOrDefault(s => s.CookieString == value);
-                if(session == null)
+                if (session == null)
                 {
                     return null;
                 }
-                if(session.ExpirationDate <= DateTime.Now)
+                if (session.ExpirationDate <= DateTime.Now)
                 {
                     db.Sessions.Remove(session);
                     db.SaveChanges();
@@ -162,7 +163,7 @@ namespace TravelerShop.BusinessLogic.Core
         internal ProductDataModel ProductActionGetToList()
         {
             var products = new List<Product>();
-            using(var db = new ProductContext())
+            using (var db = new ProductContext())
             {
                 products = db.Products.ToList();
             }
@@ -171,7 +172,7 @@ namespace TravelerShop.BusinessLogic.Core
         internal ProductDataModel GetSingleProductAction(int id)
         {
             var product = new Product();
-            using(var db = new ProductContext())
+            using (var db = new ProductContext())
             {
                 product = db.Products.Find(id);
             }
@@ -206,7 +207,7 @@ namespace TravelerShop.BusinessLogic.Core
 
         internal ProdResponseData DeleteProductAction(int id)
         {
-            using(var db = new ProductContext())
+            using (var db = new ProductContext())
             {
                 var product = db.Products.FirstOrDefault(p => p.ProductId == id);
                 db.Products.Remove(product);
@@ -242,7 +243,7 @@ namespace TravelerShop.BusinessLogic.Core
                     return new ProdResponseData
                     {
                         Status = false,
-                        ResponseMessage = "Product '" + product.Name +"' doesn't exist."
+                        ResponseMessage = "Product '" + product.Name + "' doesn't exist."
                     };
                 }
             }
@@ -350,12 +351,28 @@ namespace TravelerShop.BusinessLogic.Core
             }
         }
 
+        internal void ClearCartAction(int cartId)
+        {
+            using (var db = new CartContext())
+            {
+                var cart = db.Carts.Include(c => c.Items).FirstOrDefault(c => c.Id == cartId);
+
+                if (cart != null)
+                {
+                    cart.Total = 0;
+                    cart.DateModified = DateTime.Now;
+                    db.CartItems.RemoveRange(cart.Items);
+                    db.SaveChanges();
+                }
+            }
+        }
+
         internal ProdResponseData UpdateItemService(int itemId, int itemQuantity)
         {
-            using(var db = new CartContext())
+            using (var db = new CartContext())
             {
                 var item = db.CartItems.FirstOrDefault(i => i.Id == itemId);
-                if(item != null)
+                if (item != null)
                 {
                     if (item.Quantity == itemQuantity)
                         return new ProdResponseData { Status = true, ResponseMessage = "No need to update." };
@@ -372,6 +389,17 @@ namespace TravelerShop.BusinessLogic.Core
                 {
                     return new ProdResponseData() { Status = false, ResponseMessage = "Item not found." };
                 }
+            }
+        }
+
+        //==================ORDER=======================//
+        public ProdResponseData CreateOrderAction(Order order)
+        {
+            using (var db = new OrderContext())
+            {
+                db.Orders.Add(order);
+                db.SaveChanges();
+                return new ProdResponseData { Status = true };
             }
         }
     }
