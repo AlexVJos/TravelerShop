@@ -5,6 +5,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TravelerShop.Domain.Entities.Order.DBModel;
 using TravelerShop.Domain.Entities.Product.DBModel;
 
 namespace TravelerShop.BusinessLogic.DBModel
@@ -17,5 +18,14 @@ namespace TravelerShop.BusinessLogic.DBModel
         }
 
         public virtual DbSet<Product> Products { get; set; }
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Product>()
+                        .HasMany(c => c.Reviews)
+                        .WithOptional()
+                        .HasForeignKey(i => i.ProductId);
+
+            base.OnModelCreating(modelBuilder);
+        }
     }
 }

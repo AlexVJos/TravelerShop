@@ -11,5 +11,6 @@ namespace TravelerShop.BusinessLogic.Interfaces
     public interface IOrder
     {
         ProdResponseData Create(Order order);
+        OrderItem GetOrderItem(int userId, int productId);
     }
 }

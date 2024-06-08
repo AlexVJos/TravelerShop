@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using TravelerShop.Domain.Entities.GeneralResponse;
 using TravelerShop.Domain.Entities.Product;
 using TravelerShop.Domain.Entities.Product.DBModel;
+using TravelerShop.Domain.Entities.Review.DBModel;
 
 namespace TravelerShop.BusinessLogic.Interfaces
 {
@@ -16,5 +17,6 @@ namespace TravelerShop.BusinessLogic.Interfaces
         ProdResponseData AddProductToDb(Product product);
         ProdResponseData DeleteProduct(int id);
         ProdResponseData EditProduct(Product product);
+        ProdResponseData AddReview(Review review);
     }
 }

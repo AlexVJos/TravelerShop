@@ -16,6 +16,10 @@ namespace TravelerShop.BusinessLogic.MainBL
         {
             return CreateOrderAction(order);
         }
+        public OrderItem GetOrderItem(int userId, int productId)
+        {
+            return GetOrderItemAction(userId, productId);
+        }
 
     }
 }

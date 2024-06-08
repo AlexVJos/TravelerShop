@@ -1,0 +1,35 @@
+﻿@model TravelerShop.Web.Models.ReviewViewModel
+@{
+    ViewBag.Title = "AddReview";
+    Layout = "~/Views/Shared/_AddEditLayout.cshtml";
+}
+<!-- main content area -->
+<div class="container mt-100">
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="text-center mt-5 mb-4">Добавить отзыв</h1>
+            @using (Html.BeginForm("AddReview", "Product", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.HiddenFor(m => m.ProductId)
+                <div class="form-group">
+                    <label for="rating">Оценка:</label>
+                    @Html.TextBoxFor(m => m.Rating, new { @class = "form-control", @type = "number", @min = "1", @max = "5", @required = "required" })
+                </div>
+                <div class="form-group">
+                    <label for="title">Заголовок:</label>
+                    @Html.TextAreaFor(m => m.Title, new { @class = "form-control" })
+                </div>
+                <div class="form-group">
+                    <label for="comment">Комментарий:</label>
+                    @Html.TextAreaFor(m => m.Comment, new { @class = "form-control" })
+                </div>
+                <div class="form-group">
+                    <label for="image">Фотография:</label>
+                    <input type="file" id="imageFile" name="imageFile" class="form-control-file" accept="image/*">
+                </div>
+                <button type="submit" class="sbm-btn">Добавить отзыв</button>
+            }
+        </div>
+    </div>
+</div>

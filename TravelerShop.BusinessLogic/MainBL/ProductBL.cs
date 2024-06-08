@@ -9,6 +9,7 @@ using TravelerShop.BusinessLogic.Interfaces;
 using TravelerShop.Domain.Entities.GeneralResponse;
 using TravelerShop.Domain.Entities.Product;
 using TravelerShop.Domain.Entities.Product.DBModel;
+using TravelerShop.Domain.Entities.Review.DBModel;
 
 namespace TravelerShop.BusinessLogic.MainBL
 {
@@ -36,6 +37,10 @@ namespace TravelerShop.BusinessLogic.MainBL
         public ProdResponseData EditProduct(Product product)
         {
             return EditProductAction(product);
+        }
+        public ProdResponseData AddReview(Review review)
+        {
+            return AddReviewAction(review);
         }
     }
 }

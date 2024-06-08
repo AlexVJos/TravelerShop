@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TravelerShop.Domain.Entities.Review.DBModel;
 using TravelerShop.Domain.Enums;
 
 namespace TravelerShop.Domain.Entities.Product.DBModel
@@ -28,6 +29,8 @@ namespace TravelerShop.Domain.Entities.Product.DBModel
         [Required]
         public int Amount { get; set; } = 1;
         public double Rating { get; set; }
+        public int RatingQuantity { get; set; }
+        public virtual List<Review.DBModel.Review> Reviews { get; set; }
         public byte[] Image { get; set; }
         [DataType(DataType.Date)]
         public DateTime CreatedDate { get; set; } = DateTime.Now;

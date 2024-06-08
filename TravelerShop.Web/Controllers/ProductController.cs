@@ -13,16 +13,22 @@ using TravelerShop.Domain.Entities.User;
 using System.IO;
 using System.Web.UI.WebControls;
 using TravelerShop.Web.Attributes;
+using TravelerShop.Domain.Entities.User.DBModel;
+using TravelerShop.Domain.Entities.Order.DBModel;
+using TravelerShop.Domain.Entities.Review.DBModel;
+using TravelerShop.BusinessLogic.MainBL;
 
 namespace TravelerShop.Web.Controllers
 {
-    public class ProductController : Controller
+    public class ProductController : BaseController
     {
         internal IProduct _product;
+        internal IOrder _order;
         public ProductController()
         {
             var bl = new BusinessLogic.BusinessLogic();
             _product = bl.GetProductBL();
+            _order = bl.GetOrderBL();
         }
 
         // GET: Product
@@ -50,7 +56,7 @@ namespace TravelerShop.Web.Controllers
         public ActionResult AddNewProduct(ProductData model)
         {
             if (ModelState.IsValid)
-            {               
+            {
                 var product = new Product
                 {
                     Name = model.Name,
@@ -80,7 +86,7 @@ namespace TravelerShop.Web.Controllers
         public ActionResult Delete(int id)
         {
             ProdResponseData response = _product.DeleteProduct(id);
-            if(response.Status)
+            if (response.Status)
                 return RedirectToAction("Index", "Home");
             return View();
         }
@@ -96,7 +102,7 @@ namespace TravelerShop.Web.Controllers
         [AdminMod]
         public ActionResult Edit(ProductDataModel data)
         {
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 var product = new Product
                 {
@@ -113,10 +119,61 @@ namespace TravelerShop.Web.Controllers
                 }
 
                 ProdResponseData response = _product.EditProduct(product);
-                if(response.Status)
+                if (response.Status)
                     return RedirectToAction("Index", "Product");
             }
             return RedirectToAction("Index", "Home");
+        }
+        public ActionResult AddReview(int productId)
+        {
+            SessionStatus();
+            if ((string)System.Web.HttpContext.Current.Session["LoginStatus"] != "login")
+            {
+                return RedirectToAction("SignIn", "Login");
+            }
+            var currentUser = (User)HttpContext?.Session["__SessionObject"];
+            OrderItem orderItem = _order.GetOrderItem(currentUser.Id, productId);
+            if (orderItem != null)
+            {
+                var revViewModel = new ReviewViewModel { ProductId = productId };
+                return View(revViewModel);
+
+            }
+            else { return RedirectToAction("Index"); }
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AddReview(ReviewViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var review = new Review
+                {
+                    ProductId = model.ProductId,
+                    UserId = ((User)HttpContext?.Session["__SessionObject"]).Id,
+                    Title = model.Title,
+                    Rate = model.Rating,
+                    Comment = model.Comment,
+                    Date = DateTime.Now
+                };
+                if (model.Image != null && model.Image.ContentLength > 0)
+                {
+                    using (var binaryReader = new BinaryReader(model.Image.InputStream))
+                    {
+                        review.Image = binaryReader.ReadBytes(model.Image.ContentLength);
+                    }
+                }
+                ProdResponseData response = _product.AddReview(review);
+                if (response != null)
+                {
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Login");
+                }
+            }
+            return View(model);
         }
     }
 }

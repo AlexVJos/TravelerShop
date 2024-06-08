@@ -18,6 +18,8 @@ using System.Data.Entity.Validation;
 using TravelerShop.Domain.Entities.Cart.DBModel;
 using System.Runtime.Remoting.Contexts;
 using TravelerShop.Domain.Entities.Order.DBModel;
+using TravelerShop.Domain.Entities.Review.DBModel;
+using TravelerShop.BusinessLogic.MainBL;
 
 namespace TravelerShop.BusinessLogic.Core
 {
@@ -171,12 +173,15 @@ namespace TravelerShop.BusinessLogic.Core
         }
         internal ProductDataModel GetSingleProductAction(int id)
         {
-            var product = new Product();
             using (var db = new ProductContext())
             {
-                product = db.Products.Find(id);
+                var product = db.Products.FirstOrDefault(p => p.ProductId == id);
+                if (product != null)
+                {
+                    db.Entry(product).Collection(c => c.Reviews).Load();
+                }
+                return new ProductDataModel { SingleProduct = product };
             }
-            return new ProductDataModel { SingleProduct = product };
         }
 
         //-----------------------------УБРАТЬ ЭТОТ МЕТОД ОТСЮДА------------------------------------//
@@ -393,7 +398,7 @@ namespace TravelerShop.BusinessLogic.Core
         }
 
         //==================ORDER=======================//
-        public ProdResponseData CreateOrderAction(Order order)
+        internal ProdResponseData CreateOrderAction(Order order)
         {
             using (var db = new OrderContext())
             {
@@ -401,6 +406,35 @@ namespace TravelerShop.BusinessLogic.Core
                 db.SaveChanges();
                 return new ProdResponseData { Status = true };
             }
+        }
+
+        internal OrderItem GetOrderItemAction(int userId, int productId)
+        {
+            using (var db = new OrderContext())
+            {
+                var orderItem = (from order in db.Orders
+                                 where order.UserId == userId
+                                 from item in order.OrderItems
+                                 where item.ProductId == productId
+                                 select item).FirstOrDefault();
+                return orderItem;
+            }
+        }
+        internal ProdResponseData AddReviewAction(Review review)
+        {
+            using (var db = new ReviewContext())
+            {
+                db.Reviews.Add(review);
+                db.SaveChanges();
+            }
+            using (var db = new ProductContext())
+            {
+                var product = db.Products.FirstOrDefault(p => p.ProductId == review.ProductId);
+                product.Rating = (product.Rating * product.RatingQuantity + review.Rate) / (product.RatingQuantity + 1);
+                product.RatingQuantity++;
+                db.SaveChanges();
+            }
+            return new ProdResponseData { Status = true };
         }
     }
 }

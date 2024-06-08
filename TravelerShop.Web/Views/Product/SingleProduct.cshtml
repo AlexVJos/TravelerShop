@@ -3,128 +3,192 @@
     ViewBag.Title = "SingleProduct";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-    <!-- breadcrumb-section -->
-    <div class="breadcrumb-section breadcrumb-bg">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-8 offset-lg-2 text-center">
-                    <div class="breadcrumb-text">
-                        <p>See more Details</p>
-                        <h1>Single Product</h1>
-                    </div>
+<!-- breadcrumb-section -->
+<div class="breadcrumb-section breadcrumb-bg">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 offset-lg-2 text-center">
+                <div class="breadcrumb-text">
+                    <p>See more Details</p>
+                    <h1>Single Product</h1>
                 </div>
             </div>
         </div>
     </div>
-    <!-- end breadcrumb section -->
-    <!-- single product -->
-    <div class="single-product mt-150 mb-150">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-5">
-                    <div class="single-product-img">
-                        <img src="data:image;base64,@Convert.ToBase64String(Model.SingleProduct.Image)" alt="">
+</div>
+<!-- end breadcrumb section -->
+<!-- single product -->
+<div class="single-product mt-150 mb-150">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-5">
+                <div class="single-product-img">
+                    <img src="data:image;base64,@Convert.ToBase64String(Model.SingleProduct.Image)" alt="">
+                </div>
+            </div>
+            <div class="col-md-7">
+                <div class="single-product-content">
+                    <h3>@Model.SingleProduct.Name</h3>
+                    <p class="single-product-pricing">$@Model.SingleProduct.Price</p>
+                    <p>@Model.SingleProduct.Description</p>
+                    <div class="single-product-form">
+                        <div>
+                            <input id="quantityInput" type="number" min="1" placeholder="1">
+                        </div>
+                        <a id="addToCartLink" href="@Url.Action("AddToCart", "Cart", new {productId = Model.SingleProduct.ProductId, })" class="cart-btn"><i class="fas fa-shopping-cart"></i> Add to Cart</a>
+                        <a id="addToCartLink" href="@Url.Action("AddReview", "Product", new {productId = Model.SingleProduct.ProductId, })" class="cart-btn">Оставить отзыв</a>
+                        <p><strong>Category: </strong>@Model.SingleProduct.Category</p>
                     </div>
                 </div>
-                <div class="col-md-7">
-                    <div class="single-product-content">
-                        <h3>@Model.SingleProduct.Name</h3>
-                        <p class="single-product-pricing">$@Model.SingleProduct.Price</p>
-                        <p>@Model.SingleProduct.Description</p>
-                        <div class="single-product-form">
-                            <div>
-                                <input id="quantityInput" type="number" min = "1" placeholder="1">
+            </div>
+        </div>
+        <div class="row mt-5">
+            <div class="col-lg-12">
+                <h3>Отзывы покупателей</h3>
+                @if (Model.SingleProduct.Reviews != null && Model.SingleProduct.Reviews.Count > 0)
+                {
+                    foreach (var review in Model.SingleProduct.Reviews)
+                    {
+                        <div class="review">
+                            <div class="review-header">
+                                <strong>@review.Title</strong>
+                                <div class="review-rating">
+                                    @for (int i = 1; i <= 5; i++)
+                                    {
+                                        <span class="fa fa-star @(i <= review.Rate ? "checked" : "")"></span>
+                                    }
+                                </div>
                             </div>
-                            <a id="addToCartLink" href="@Url.Action("AddToCart", "Cart", new {productId = Model.SingleProduct.ProductId, })" class="cart-btn"><i class="fas fa-shopping-cart"></i> Add to Cart</a>
-                            <p><strong>Category: </strong>@Model.SingleProduct.Category</p>
+                            <div class="review-body">
+                                <p>@review.Comment</p>
+                                @if (review.Image != null)
+                                {
+                                    <img src="data:image;base64,@Convert.ToBase64String(review.Image)" alt="Review Image" class="review-image">
+                                }
+                                <p><small>@review.Date.ToString("dd MMM yyyy")</small></p>
+                            </div>
                         </div>
-                        <h4>Share:</h4>
-                        <ul class="product-share">
-                            <li><a href=""><i class="fab fa-facebook-f"></i></a></li>
-                            <li><a href=""><i class="fab fa-twitter"></i></a></li>
-                            <li><a href=""><i class="fab fa-google-plus-g"></i></a></li>
-                            <li><a href=""><i class="fab fa-linkedin"></i></a></li>
-                        </ul>
+                    }
+                }
+                else
+                {
+                    <p>Нет отзывов</p>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    .review {
+        border: 1px solid #ddd;
+        padding: 15px;
+        margin-bottom: 15px;
+        border-radius: 5px;
+        background-color: #f9f9f9;
+    }
+
+    .review-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+
+    .review-rating .fa-star {
+        color: #ddd;
+    }
+
+        .review-rating .fa-star.checked {
+            color: #f39c12;
+        }
+
+    .review-body {
+        margin-top: 10px;
+    }
+
+    .review-image {
+        max-width: 100%;
+        height: auto;
+        margin-top: 10px;
+    }
+</style>
+
+
+<!-- end single product -->
+<!-- more products -->
+<div class="more-products mb-150">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 offset-lg-2 text-center">
+                <div class="section-title">
+                    <h3><span class="orange-text">Related</span> Products</h3>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid, fuga quas itaque eveniet beatae optio.</p>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-6 text-center">
+                <div class="single-product-item">
+                    <div class="product-image">
+                        <a href="single-product.html"><img src="assets/img/products/product-img-1.jpg" alt=""></a>
+                    </div>
+                    <h3>Strawberry</h3>
+                    <p class="product-price"><span>Per Kg</span> 85$ </p>
+                    <a href="cart.html" class="cart-btn"><i class="fas fa-shopping-cart"></i> Add to Cart</a>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 text-center">
+                <div class="single-product-item">
+                    <div class="product-image">
+                        <a href="single-product.html"><img src="assets/img/products/product-img-2.jpg" alt=""></a>
+                    </div>
+                    <h3>Berry</h3>
+                    <p class="product-price"><span>Per Kg</span> 70$ </p>
+                    <a href="cart.html" class="cart-btn"><i class="fas fa-shopping-cart"></i> Add to Cart</a>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 offset-lg-0 offset-md-3 text-center">
+                <div class="single-product-item">
+                    <div class="product-image">
+                        <a href="single-product.html"><img src="assets/img/products/product-img-3.jpg" alt=""></a>
+                    </div>
+                    <h3>Lemon</h3>
+                    <p class="product-price"><span>Per Kg</span> 35$ </p>
+                    <a href="cart.html" class="cart-btn"><i class="fas fa-shopping-cart"></i> Add to Cart</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end more products -->
+<!-- logo carousel -->
+<div class="logo-carousel-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="logo-carousel-inner">
+                    <div class="single-logo-item">
+                        <img src="assets/img/company-logos/1.png" alt="">
+                    </div>
+                    <div class="single-logo-item">
+                        <img src="assets/img/company-logos/2.png" alt="">
+                    </div>
+                    <div class="single-logo-item">
+                        <img src="assets/img/company-logos/3.png" alt="">
+                    </div>
+                    <div class="single-logo-item">
+                        <img src="assets/img/company-logos/4.png" alt="">
+                    </div>
+                    <div class="single-logo-item">
+                        <img src="assets/img/company-logos/5.png" alt="">
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <!-- end single product -->
-    <!-- more products -->
-    <div class="more-products mb-150">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-8 offset-lg-2 text-center">
-                    <div class="section-title">
-                        <h3><span class="orange-text">Related</span> Products</h3>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid, fuga quas itaque eveniet beatae optio.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-4 col-md-6 text-center">
-                    <div class="single-product-item">
-                        <div class="product-image">
-                            <a href="single-product.html"><img src="assets/img/products/product-img-1.jpg" alt=""></a>
-                        </div>
-                        <h3>Strawberry</h3>
-                        <p class="product-price"><span>Per Kg</span> 85$ </p>
-                        <a href="cart.html" class="cart-btn"><i class="fas fa-shopping-cart"></i> Add to Cart</a>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 text-center">
-                    <div class="single-product-item">
-                        <div class="product-image">
-                            <a href="single-product.html"><img src="assets/img/products/product-img-2.jpg" alt=""></a>
-                        </div>
-                        <h3>Berry</h3>
-                        <p class="product-price"><span>Per Kg</span> 70$ </p>
-                        <a href="cart.html" class="cart-btn"><i class="fas fa-shopping-cart"></i> Add to Cart</a>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 offset-lg-0 offset-md-3 text-center">
-                    <div class="single-product-item">
-                        <div class="product-image">
-                            <a href="single-product.html"><img src="assets/img/products/product-img-3.jpg" alt=""></a>
-                        </div>
-                        <h3>Lemon</h3>
-                        <p class="product-price"><span>Per Kg</span> 35$ </p>
-                        <a href="cart.html" class="cart-btn"><i class="fas fa-shopping-cart"></i> Add to Cart</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- end more products -->
-    <!-- logo carousel -->
-    <div class="logo-carousel-section">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="logo-carousel-inner">
-                        <div class="single-logo-item">
-                            <img src="assets/img/company-logos/1.png" alt="">
-                        </div>
-                        <div class="single-logo-item">
-                            <img src="assets/img/company-logos/2.png" alt="">
-                        </div>
-                        <div class="single-logo-item">
-                            <img src="assets/img/company-logos/3.png" alt="">
-                        </div>
-                        <div class="single-logo-item">
-                            <img src="assets/img/company-logos/4.png" alt="">
-                        </div>
-                        <div class="single-logo-item">
-                            <img src="assets/img/company-logos/5.png" alt="">
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- end logo carousel -->
-    <script>
+</div>
+<!-- end logo carousel -->
+<script>
         document.addEventListener("DOMContentLoaded", function() {
             var quantityInput = document.getElementById("quantityInput");
             var addToCartLink = document.getElementById("addToCartLink");
@@ -137,4 +201,4 @@
                 addToCartLink.href = newUrl;
             });
         });
-    </script>
+</script>

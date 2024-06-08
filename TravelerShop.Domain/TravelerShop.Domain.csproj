@@ -61,6 +61,7 @@
     <Compile Include="Entities\Order\DBModel\OrderItem.cs" />
     <Compile Include="Entities\Product\DBModel\Product.cs" />
     <Compile Include="Entities\Product\ProductDataModel.cs" />
+    <Compile Include="Entities\Review\DBModel\Review.cs" />
     <Compile Include="Entities\User\DBModel\User.cs" />
     <Compile Include="Entities\User\ULoginData.cs" />
     <Compile Include="Entities\User\URegisterData.cs" />
